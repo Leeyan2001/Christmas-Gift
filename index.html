@@ -1,0 +1,5468 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+
+    <title>A Christmas Surprise For You ❤️</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      :root {
+        --red: #c94b55;
+
+        --green: #286747;
+      }
+
+      body {
+        margin: 0;
+
+        min-height: 100vh;
+
+        font-family: "Trebuchet MS", sans-serif;
+
+        color: #f8f5ef;
+
+        background:
+          radial-gradient(
+            ellipse at 50% 18%,
+
+            rgba(183, 211, 231, 0.22),
+            transparent 58%
+          ),
+          linear-gradient(160deg, #405a70, #526d82 55%, #344b60);
+
+        overflow-x: hidden;
+
+        transition:
+          background 1.8s ease,
+          color 1.8s ease;
+      }
+
+      button {
+        font-family: inherit;
+
+        cursor: pointer;
+
+        border: 0;
+      }
+
+      .snowflake {
+        position: fixed;
+
+        top: -20px;
+
+        color: #fff;
+
+        font-size: 18px;
+
+        pointer-events: none;
+
+        animation: snowFall linear infinite;
+
+        z-index: 0;
+      }
+
+      @keyframes snowFall {
+        to {
+          transform: translateY(110vh) rotate(360deg);
+        }
+      }
+
+      .screen {
+        display: none;
+
+        min-height: 100vh;
+
+        padding: 25px 16px;
+
+        align-items: center;
+
+        justify-content: center;
+
+        flex-direction: column;
+
+        position: relative;
+
+        z-index: 1;
+
+        text-align: center;
+      }
+
+      .screen.active {
+        display: flex;
+      }
+
+      .screen.active .card {
+        animation: cardArrive 0.62s cubic-bezier(0.2, 0.8, 0.25, 1) both;
+      }
+
+      @keyframes cardArrive {
+        from {
+          opacity: 0;
+
+          transform: translateY(22px) scale(0.975);
+        }
+
+        to {
+          opacity: 1;
+
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      #letterCard {
+        opacity: 0;
+
+        visibility: hidden;
+
+        transform: translateY(14px) scale(0.985);
+      }
+
+      #letterCard.letter-visible {
+        visibility: visible;
+
+        animation: letterCardReveal 0.65s cubic-bezier(0.2, 0.8, 0.25, 1) both;
+      }
+
+      @keyframes letterCardReveal {
+        from {
+          opacity: 0;
+
+          transform: translateY(18px) scale(0.98);
+        }
+
+        to {
+          opacity: 1;
+
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      #letterCard.page-out {
+        opacity: 0;
+
+        transform: translateX(-18px);
+
+        transition:
+          opacity 0.2s ease,
+          transform 0.2s ease;
+      }
+
+      #letterCard.page-in {
+        animation: pageTurnIn 0.42s cubic-bezier(0.2, 0.8, 0.25, 1) both;
+      }
+
+      @keyframes pageTurnIn {
+        from {
+          opacity: 0;
+
+          transform: translateX(18px);
+        }
+
+        to {
+          opacity: 1;
+
+          transform: translateX(0);
+        }
+      }
+
+      #envelopeIntro {
+        position: fixed;
+
+        inset: 0;
+
+        z-index: 60;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        padding: 20px;
+
+        background: rgba(12, 25, 38, 0.34);
+
+        backdrop-filter: blur(3px);
+
+        opacity: 0;
+
+        visibility: hidden;
+
+        pointer-events: none;
+
+        transition:
+          opacity 0.35s ease,
+          visibility 0.35s ease;
+      }
+
+      #envelopeIntro.show {
+        opacity: 1;
+
+        visibility: visible;
+
+        pointer-events: auto;
+      }
+
+      .envelope {
+        position: relative;
+
+        display: block;
+
+        width: min(340px, 82vw);
+
+        height: 220px;
+
+        padding: 0;
+
+        border: 0;
+
+        border-radius: 14px;
+
+        background: transparent;
+
+        box-shadow:
+          0 24px 55px rgba(0, 0, 0, 0.34),
+          0 0 38px rgba(255, 226, 177, 0.24);
+
+        transform: translateY(42px) scale(0.58) rotate(-5deg);
+
+        opacity: 0;
+
+        cursor: pointer;
+
+        touch-action: manipulation;
+
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      #envelopeIntro.show .envelope {
+        animation: envelopePop 0.72s cubic-bezier(0.16, 1.15, 0.3, 1) forwards;
+      }
+
+      .envelope-back {
+        position: absolute;
+
+        inset: 0;
+
+        border-radius: 14px;
+
+        background: linear-gradient(145deg, #e8bd86, #c98550);
+
+        border: 2px solid rgba(255, 255, 255, 0.48);
+      }
+
+      .envelope-front {
+        position: absolute;
+
+        z-index: 3;
+
+        inset: 0;
+
+        border-radius: 14px;
+
+        background: linear-gradient(145deg, #f0c995, #d99a62);
+
+        clip-path: polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%);
+      }
+
+      .envelope-flap {
+        position: absolute;
+
+        z-index: 4;
+
+        left: 0;
+
+        top: 0;
+
+        width: 100%;
+
+        height: 58%;
+
+        background: linear-gradient(155deg, #f6d8a9, #dfa66f);
+
+        clip-path: polygon(0 0, 100% 0, 50% 100%);
+
+        transform-origin: top center;
+
+        backface-visibility: hidden;
+
+        transition: transform 0.72s cubic-bezier(0.2, 0.75, 0.25, 1);
+      }
+
+      .envelope-seal {
+        position: absolute;
+
+        z-index: 5;
+
+        left: 50%;
+
+        top: 55%;
+
+        transform: translate(-50%, -50%);
+
+        width: 42px;
+
+        height: 42px;
+
+        display: grid;
+
+        place-items: center;
+
+        border-radius: 50%;
+
+        background: radial-gradient(circle at 35% 30%, #f58a8f, #b83243);
+
+        color: white;
+
+        font-size: 21px;
+
+        box-shadow: 0 3px 9px rgba(90, 30, 35, 0.28);
+
+        transition:
+          opacity 0.2s ease,
+          transform 0.25s ease;
+      }
+
+      .envelope-hint {
+        position: absolute;
+
+        left: 0;
+
+        right: 0;
+
+        bottom: -42px;
+
+        color: white;
+
+        font-size: 15px;
+
+        font-weight: 700;
+
+        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.45);
+      }
+
+      .envelope.opening .envelope-flap {
+        transform: rotateX(180deg);
+      }
+
+      .envelope.opening .envelope-seal {
+        opacity: 0;
+
+        transform: translate(-50%, -50%) scale(0.55);
+      }
+
+      .envelope.opening {
+        animation: envelopeOpenAway 0.8s 1.15s ease forwards;
+      }
+
+      @keyframes envelopePop {
+        0% {
+          opacity: 0;
+
+          transform: translateY(42px) scale(0.58) rotate(-5deg);
+        }
+
+        68% {
+          opacity: 1;
+
+          transform: translateY(-8px) scale(1.04) rotate(1deg);
+        }
+
+        100% {
+          opacity: 1;
+
+          transform: translateY(0) scale(1) rotate(0);
+        }
+      }
+
+      @keyframes envelopeOpenAway {
+        to {
+          opacity: 0;
+
+          transform: translateY(-24px) scale(0.88);
+        }
+      }
+
+      .card {
+        width: 100%;
+
+        max-width: 440px;
+
+        padding: 28px 22px;
+
+        border-radius: 28px;
+
+        background: rgba(248, 250, 252, 0.84);
+
+        color: #443b3b;
+
+        box-shadow: 0 14px 42px rgba(0, 0, 0, 0.32);
+
+        border: 2px solid rgba(255, 255, 255, 0.82);
+      }
+
+      h1 {
+        color: var(--red);
+
+        font-size: 30px;
+
+        margin: 12px 0;
+      }
+
+      h2 {
+        color: var(--green);
+
+        font-size: 23px;
+      }
+
+      p {
+        line-height: 1.7;
+      }
+
+      .subtitle {
+        color: #92716b;
+
+        font-size: 14px;
+      }
+
+      .primary {
+        background: var(--red);
+
+        color: white;
+
+        border-radius: 30px;
+
+        padding: 14px 25px;
+
+        font-size: 16px;
+
+        font-weight: bold;
+
+        margin-top: 16px;
+
+        box-shadow: 0 5px 0 #a73843;
+
+        transition: transform 0.2s;
+      }
+
+      .primary:active {
+        transform: translateY(4px);
+
+        box-shadow: none;
+      }
+
+      .tree-emoji {
+        font-size: 100px;
+
+        animation: treeBounce 2s ease-in-out infinite;
+      }
+
+      @keyframes treeBounce {
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+
+      #gameCard {
+        max-width: 440px;
+      }
+
+      #gameBoard {
+        width: 100%;
+
+        max-width: 340px;
+
+        height: 390px;
+
+        margin: 20px auto;
+
+        border-radius: 24px;
+
+        position: relative;
+
+        overflow: hidden;
+
+        background: linear-gradient(#e6f5f0, #f8f4e9);
+
+        border: 3px dashed #b7d6c5;
+
+        touch-action: none;
+      }
+
+      .slot {
+        position: absolute;
+
+        transform: translate(-50%, -50%);
+
+        border: 2px dashed rgba(66, 120, 85, 0.25);
+
+        border-radius: 12px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        pointer-events: none;
+      }
+
+      .slot.filled {
+        border-color: transparent;
+      }
+
+      .piece {
+        position: absolute;
+
+        transform: translate(-50%, -50%);
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        cursor: grab;
+
+        touch-action: none;
+
+        user-select: none;
+
+        z-index: 5;
+      }
+
+      .piece:active {
+        cursor: grabbing;
+      }
+
+      .piece.moving {
+        z-index: 20;
+
+        filter: drop-shadow(0 8px 8px rgba(0, 0, 0, 0.2));
+      }
+
+      .tree-part {
+        width: 110px;
+
+        height: 95px;
+
+        background: #32865b;
+
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+
+        color: transparent;
+      }
+
+      .tree-part.middle {
+        width: 150px;
+
+        height: 110px;
+      }
+
+      .tree-part.bottom {
+        width: 190px;
+
+        height: 125px;
+      }
+
+      .trunk {
+        width: 48px;
+
+        height: 58px;
+
+        background: #98603b;
+
+        border-radius: 5px;
+      }
+
+      .star {
+        font-size: 52px;
+
+        width: 65px;
+
+        height: 65px;
+      }
+
+      .ornament {
+        font-size: 32px;
+
+        width: 48px;
+
+        height: 48px;
+      }
+
+      #tray {
+        display: flex;
+
+        flex-wrap: wrap;
+
+        gap: 10px;
+
+        justify-content: center;
+
+        margin-top: 18px;
+
+        min-height: 70px;
+      }
+
+      .tray-piece {
+        position: relative;
+
+        transform: none;
+
+        width: 60px;
+
+        height: 60px;
+
+        border-radius: 15px;
+
+        background: white;
+
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+
+        font-size: 30px;
+      }
+
+      .tray-piece .tree-part {
+        width: 42px;
+
+        height: 38px;
+      }
+
+      .tray-piece .tree-part.middle {
+        width: 48px;
+
+        height: 42px;
+      }
+
+      .tray-piece .tree-part.bottom {
+        width: 54px;
+
+        height: 46px;
+      }
+
+      .tray-piece .trunk {
+        width: 20px;
+
+        height: 25px;
+      }
+
+      .tray-piece .star {
+        font-size: 32px;
+      }
+
+      .tray-piece .ornament {
+        font-size: 28px;
+      }
+
+      #progress {
+        font-weight: bold;
+
+        color: var(--green);
+      }
+
+      .shake-button {
+        background: #e5f3ff;
+
+        color: #44759d;
+
+        border-radius: 25px;
+
+        padding: 12px 20px;
+
+        font-weight: bold;
+
+        margin-top: 12px;
+      }
+
+      .shake-button:active {
+        transform: scale(0.95);
+      }
+
+      #shakeStatus {
+        font-size: 13px;
+
+        color: #7199aa;
+
+        line-height: 1.6;
+
+        margin: 8px auto;
+
+        max-width: 285px;
+      }
+
+      .side-snow {
+        position: fixed;
+
+        top: 0;
+
+        width: 22px;
+
+        height: 0;
+
+        z-index: 6;
+
+        pointer-events: none;
+
+        background: linear-gradient(
+          to right,
+
+          rgba(231, 246, 255, 0.88),
+          rgba(255, 255, 255, 0.98),
+          rgba(222, 240, 252, 0.82)
+        );
+
+        border-radius: 0 0 55% 55%;
+
+        box-shadow: 0 3px 10px rgba(255, 255, 255, 0.38);
+
+        transition:
+          height 0.16s ease-out,
+          top 0.16s ease-out;
+      }
+
+      #leftSnow {
+        left: 0;
+      }
+
+      #rightSnow {
+        right: 0;
+      }
+
+      .side-snow:before {
+        content: "";
+
+        position: absolute;
+
+        top: -7px;
+
+        left: -4px;
+
+        width: calc(100% + 8px);
+
+        height: 14px;
+
+        background: linear-gradient(180deg, #fff, #edf8ff);
+
+        border-radius: 50%;
+
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.45);
+      }
+
+      #topSnow {
+        position: fixed;
+
+        z-index: 30;
+
+        height: 20px;
+
+        pointer-events: none;
+
+        border-radius: 48% 52% 8px 8px / 75% 75% 8px 8px;
+
+        background:
+          radial-gradient(
+            ellipse at 14% 55%,
+
+            rgba(255, 255, 255, 0.98) 0 13%,
+
+            transparent 14%
+          ),
+          radial-gradient(
+            ellipse at 34% 28%,
+
+            rgba(255, 255, 255, 0.98) 0 16%,
+
+            transparent 17%
+          ),
+          radial-gradient(
+            ellipse at 58% 42%,
+
+            rgba(255, 255, 255, 0.98) 0 15%,
+
+            transparent 16%
+          ),
+          radial-gradient(
+            ellipse at 82% 52%,
+
+            rgba(255, 255, 255, 0.98) 0 13%,
+
+            transparent 14%
+          ),
+          linear-gradient(180deg, #fff 0%, #f7fcff 72%, #e4f2fb 100%);
+
+        box-shadow: 0 3px 9px rgba(203, 229, 245, 0.42);
+
+        transform-origin: center bottom;
+
+        transition:
+          height 0.14s ease-out,
+          top 0.14s ease-out,
+          opacity 0.2s ease;
+
+        overflow: hidden;
+      }
+
+      #topSnow:before {
+        content: "";
+
+        position: absolute;
+
+        left: 2%;
+
+        right: 2%;
+
+        top: 0;
+
+        height: 7px;
+
+        border-radius: 50%;
+
+        background: rgba(255, 255, 255, 0.92);
+
+        filter: blur(2px);
+      }
+
+      .side-snow.falling {
+        animation: snowSlide 1.2s ease-in forwards;
+      }
+
+      @keyframes snowSlide {
+        0% {
+          transform: translateY(0);
+
+          opacity: 1;
+        }
+
+        35% {
+          transform: translateY(12px) rotate(-4deg);
+        }
+
+        100% {
+          transform: translateY(48px) rotate(5deg);
+
+          opacity: 0;
+        }
+      }
+
+      .snow-burst {
+        position: fixed;
+
+        width: 9px;
+
+        height: 9px;
+
+        background: white;
+
+        border-radius: 50%;
+
+        pointer-events: none;
+
+        z-index: 20;
+
+        box-shadow: 0 0 8px #bdeaff;
+
+        animation: snowBurst 0.9s ease-out forwards;
+      }
+
+      @keyframes snowBurst {
+        0% {
+          opacity: 1;
+
+          transform: translate(0, 0) scale(1);
+        }
+
+        100% {
+          opacity: 0;
+
+          transform: translate(var(--dx), var(--dy)) scale(0.2);
+        }
+      }
+
+      #letterCard {
+        max-width: 450px;
+
+        min-height: 480px;
+
+        display: flex;
+
+        flex-direction: column;
+
+        justify-content: space-between;
+      }
+
+      .letter {
+        text-align: left;
+
+        font-size: 16px;
+
+        line-height: 1.9;
+
+        white-space: pre-line;
+
+        margin: 20px 0;
+      }
+
+      .page-number {
+        color: #b18b81;
+
+        font-size: 13px;
+      }
+
+      .letter-controls {
+        display: flex;
+
+        justify-content: space-between;
+
+        gap: 10px;
+      }
+
+      .secondary {
+        padding: 12px 20px;
+
+        border-radius: 25px;
+
+        background: #f9e5e5;
+
+        color: #a34d55;
+
+        font-weight: bold;
+      }
+
+      .secondary:disabled {
+        opacity: 0.35;
+
+        cursor: default;
+      }
+
+      #finalScreen .card {
+        background: #fff5f5;
+      }
+
+      #finalTreeDisplay {
+        width: 100%;
+        margin: 24px auto 8px;
+        display: flex;
+        justify-content: center;
+        perspective: 900px;
+      }
+
+      #finalTreeBoard {
+        width: min(340px, 100%);
+        height: 390px;
+        margin: 0 auto;
+        border-radius: 24px;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(#e6f5f0, #f8f4e9);
+        border: 3px solid rgba(183, 214, 197, 0.8);
+        box-shadow: 0 16px 35px rgba(24, 48, 38, 0.22);
+        animation: finalTreeReveal 1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      }
+
+      #finalTreeBoard .tree-celebration-lights {
+        opacity: 1;
+      }
+
+      .christmas-ambience-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin: 8px auto 4px;
+        padding: 12px 18px;
+        border-radius: 24px;
+        color: #fff7e8;
+        background: linear-gradient(135deg, #315c49, #1d3d32);
+        border: 1px solid rgba(255, 220, 160, 0.55);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+        font-weight: 800;
+        font-size: 14px;
+        touch-action: manipulation;
+      }
+      .christmas-ambience-toggle:active {
+        transform: scale(0.97);
+      }
+      body.christmas-ambience-off {
+        background: radial-gradient(ellipse at 50% 65%, #182331 0%, #080d16 68%, #03060b 100%) !important;
+        color: #f7ead5;
+      }
+      body.christmas-ambience-off #christmasLights {
+        opacity: 0 !important;
+        visibility: hidden;
+      }
+      body.christmas-ambience-off .final-message-card .message-lights {
+        opacity: 0 !important;
+        visibility: hidden;
+      }
+      body.christmas-ambience-off #finalScreen {
+        background: transparent;
+      }
+      body.christmas-ambience-off #finalScreen .final-message-card {
+        background: linear-gradient(145deg, rgba(15, 22, 32, 0.97), rgba(7, 12, 20, 0.98)) !important;
+        border-color: rgba(255, 220, 160, 0.2) !important;
+        box-shadow: 0 0 45px rgba(0, 0, 0, 0.75), 0 18px 55px rgba(0, 0, 0, 0.6) !important;
+      }
+      body.christmas-ambience-off #finalScreen .message-content h1,
+      body.christmas-ambience-off #finalScreen .message-content p {
+        color: #f8e8cf !important;
+      }
+      body.christmas-ambience-off .christmas-ambience-toggle {
+        background: linear-gradient(135deg, #76512c, #493018);
+      }
+      
+      body.christmas-ambience-off #finalTreeDisplay {
+        background: #02040a !important;
+        box-shadow: none !important;
+      }
+      body.christmas-ambience-off #finalTreeBoard {
+        background: #02040a !important;
+        border-color: #02040a !important;
+        box-shadow: none !important;
+      }
+      body.christmas-ambience-off #finalTreeBoard .tree-part {
+        filter: drop-shadow(0 0 7px rgba(73, 255, 157, 0.58)) brightness(1.3) !important;
+      }
+      body.christmas-ambience-off #finalTreeBoard .trunk {
+        filter: drop-shadow(0 0 6px rgba(255, 174, 91, 0.48)) brightness(1.2) !important;
+      }
+      body.christmas-ambience-off #finalTreeBoard .star {
+        filter: drop-shadow(0 0 9px rgba(255, 221, 91, 0.95)) brightness(1.35) !important;
+      }
+      body.christmas-ambience-off #finalTreeBoard .tree-celebration-lights {
+        opacity: 1 !important;
+        visibility: visible !important;
+        filter: drop-shadow(0 0 2px rgba(255, 220, 120, 0.32));
+      }
+      body.christmas-ambience-off #finalTreeBoard .tree-celebration-lights path {
+        stroke: rgba(255, 221, 145, 0.9) !important;
+        filter: drop-shadow(0 0 3px rgba(255, 210, 115, 0.75));
+      }
+
+      @keyframes finalTreeReveal {
+        from {
+          opacity: 0;
+          transform: translateY(26px) scale(0.92) rotateX(8deg);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1) rotateX(0);
+        }
+      }
+
+      @media (max-width: 480px) {
+        #finalTreeBoard {
+          width: min(300px, 100%);
+          height: 350px;
+        }
+      }
+
+      .message-card {
+        position: relative;
+
+        isolation: isolate;
+
+        overflow: hidden;
+
+        background:
+          radial-gradient(
+            circle at 0 0,
+
+            rgba(255, 184, 91, 0.22),
+            transparent 25%
+          ),
+          radial-gradient(
+            circle at 100% 0,
+
+            rgba(255, 91, 91, 0.18),
+            transparent 25%
+          ),
+          radial-gradient(
+            circle at 0 100%,
+
+            rgba(89, 194, 133, 0.18),
+            transparent 25%
+          ),
+          radial-gradient(
+            circle at 100% 100%,
+
+            rgba(105, 169, 255, 0.2),
+            transparent 25%
+          ),
+          linear-gradient(145deg, #101923, #17232d 55%, #101923) !important;
+
+        border: 1px solid rgba(255, 210, 150, 0.3) !important;
+
+        color: #fff0d5 !important;
+
+        box-shadow:
+          0 0 22px rgba(255, 185, 105, 0.12),
+          0 18px 48px rgba(0, 0, 0, 0.5) !important;
+      }
+
+      .message-content {
+        position: relative;
+
+        z-index: 2;
+      }
+
+      .message-card h1,
+      .message-card p,
+      .message-card .letter {
+        color: #fff0d5 !important;
+
+        text-shadow:
+          0 0 8px rgba(255, 190, 115, 0.2),
+          0 1px 2px rgba(0, 0, 0, 0.8);
+      }
+
+      .message-card .page-number {
+        color: #e9bd83 !important;
+      }
+
+      .message-card .letter {
+        font-size: 16px;
+
+        line-height: 1.85;
+
+        overflow-wrap: anywhere;
+      }
+
+      .message-lights {
+        position: absolute;
+
+        inset: 0;
+
+        z-index: 1;
+
+        pointer-events: none;
+      }
+
+      .corner-light {
+        position: absolute;
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 9px;
+
+        padding: 5px;
+      }
+
+      .corner-light i {
+        display: block;
+
+        width: 8px;
+
+        height: 12px;
+
+        border-radius: 50% 50% 45% 45%;
+
+        background: var(--bulb-color);
+
+        box-shadow:
+          0 0 5px 2px var(--bulb-color),
+          0 0 15px 5px var(--bulb-glow);
+
+        animation: cornerTwinkle 2.8s ease-in-out infinite alternate;
+
+        animation-delay: var(--twinkle-delay);
+      }
+
+      .corner-light i:nth-child(4n + 1) {
+        --bulb-color: #ff5555;
+
+        --bulb-glow: rgba(255, 65, 65, 0.72);
+      }
+
+      .corner-light i:nth-child(4n + 2) {
+        --bulb-color: #54e58b;
+
+        --bulb-glow: rgba(65, 235, 130, 0.7);
+      }
+
+      .corner-light i:nth-child(4n + 3) {
+        --bulb-color: #69baff;
+
+        --bulb-glow: rgba(80, 165, 255, 0.75);
+      }
+
+      .corner-light i:nth-child(4n) {
+        --bulb-color: #ffd35b;
+
+        --bulb-glow: rgba(255, 205, 75, 0.75);
+      }
+
+      .top-left {
+        top: 10px;
+
+        left: 10px;
+
+        transform: rotate(8deg);
+      }
+
+      .top-right {
+        top: 10px;
+
+        right: 10px;
+
+        transform: rotate(-8deg);
+      }
+
+      .bottom-left {
+        bottom: 10px;
+
+        left: 10px;
+
+        transform: rotate(-8deg);
+      }
+
+      .bottom-right {
+        bottom: 10px;
+
+        right: 10px;
+
+        transform: rotate(8deg);
+      }
+
+      @keyframes cornerTwinkle {
+        from {
+          opacity: 0.65;
+
+          filter: brightness(0.85);
+        }
+
+        to {
+          opacity: 1;
+
+          filter: brightness(1.35);
+        }
+      }
+
+      .message-card .primary,
+      .message-card .secondary {
+        position: relative;
+
+        z-index: 3;
+      }
+
+      @media (max-width: 480px) {
+        .message-card {
+          padding: 30px 20px !important;
+        }
+
+        .message-card .letter {
+          font-size: 15px;
+
+          line-height: 1.75;
+        }
+
+        .corner-light {
+          gap: 6px;
+        }
+
+        .corner-light i {
+          width: 7px;
+
+          height: 10px;
+        }
+      }
+
+      .heart {
+        font-size: 70px;
+
+        animation: heartBeat 1s infinite;
+      }
+
+      @keyframes heartBeat {
+        50% {
+          transform: scale(1.15);
+        }
+      }
+
+      body.christmas-transition {
+        background: linear-gradient(160deg, #34495d, #40596f 58%, #2d4257);
+
+        transition:
+          background 1.8s ease,
+          color 1.8s ease;
+      }
+
+      body.christmas-transition .card {
+        box-shadow:
+          0 0 45px rgba(255, 190, 105, 0.08),
+          0 18px 55px rgba(0, 0, 0, 0.58);
+
+        transition: box-shadow 1.8s ease;
+      }
+
+      body.christmas-night {
+        background:
+          radial-gradient(
+            ellipse at 50% 45%,
+
+            rgba(255, 190, 105, 0.16),
+            transparent 55%
+          ),
+          linear-gradient(160deg, #293e52, #354d63 58%, #26394d);
+
+        color: #fff1d7;
+
+        transition:
+          background 1.8s ease,
+          color 1.8s ease;
+      }
+
+      body.christmas-night .screen {
+        background: radial-gradient(
+          ellipse at center,
+
+          rgba(255, 190, 95, 0.08),
+          transparent 65%
+        );
+      }
+
+      body.christmas-night .card {
+        background: linear-gradient(
+          145deg,
+          rgba(40, 34, 31, 0.96),
+          rgba(23, 29, 35, 0.97)
+        );
+
+        color: #fff0d5;
+
+        border-color: rgba(255, 214, 145, 0.3);
+
+        box-shadow:
+          0 0 28px rgba(255, 174, 75, 0.2),
+          0 0 75px rgba(255, 174, 75, 0.13),
+          0 18px 55px rgba(0, 0, 0, 0.55);
+
+        transition:
+          background 1.8s ease,
+          box-shadow 1.8s ease,
+          border-color 1.8s ease;
+      }
+
+      body.christmas-night h1 {
+        color: #ffd18a;
+
+        text-shadow: 0 0 15px rgba(255, 184, 89, 0.32);
+      }
+
+      body.christmas-night h2,
+      body.christmas-night #progress {
+        color: #c8edc9;
+      }
+
+      body.christmas-night .subtitle,
+      body.christmas-night #shakeStatus {
+        color: #e5cba7;
+      }
+
+      #christmasLights {
+        display: none;
+
+        position: fixed;
+
+        inset: 0;
+
+        z-index: 8;
+
+        pointer-events: none;
+
+        overflow: hidden;
+
+        opacity: 0;
+
+        transition: opacity 2.2s ease;
+      }
+
+      body.christmas-night #christmasLights {
+        display: block;
+
+        opacity: 1;
+      }
+
+      #christmasLights .light-string {
+        position: absolute;
+
+        top: 10px;
+
+        width: 34%;
+
+        height: 48px;
+
+        border-bottom: 2px solid rgba(25, 29, 31, 0.9);
+
+        border-radius: 0 0 50% 50%;
+
+        filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.75));
+      }
+
+      #christmasLights .light-string.swag-one {
+        left: -2%;
+      }
+
+      #christmasLights .light-string.swag-two {
+        left: 33%;
+
+        top: 20px;
+      }
+
+      #christmasLights .light-string.swag-three {
+        right: -2%;
+      }
+
+      #christmasLights .bulb {
+        position: absolute;
+
+        top: var(--bulb-top, 34px);
+
+        width: 10px;
+
+        height: 16px;
+
+        border-radius: 45% 45% 50% 50%;
+
+        background: var(--bulb);
+
+        border: 1px solid rgba(255, 255, 255, 0.34);
+
+        box-shadow:
+          0 0 5px 1px var(--bulb),
+          0 0 13px 4px var(--glow),
+          0 0 25px 7px var(--glow);
+
+        animation:
+          bulbGlow 2.8s ease-in-out infinite alternate,
+          bulbColor 12s steps(1, end) infinite;
+
+        animation-delay: var(--delay), var(--color-delay, 0s);
+      }
+
+      #christmasLights .bulb::before {
+        content: "";
+
+        position: absolute;
+
+        width: 6px;
+
+        height: 5px;
+
+        left: 1px;
+
+        top: -5px;
+
+        border-radius: 2px 2px 0 0;
+
+        background: linear-gradient(90deg, #25292b, #596064, #202426);
+      }
+
+      #christmasLights .side-strand {
+        position: absolute;
+
+        top: 8%;
+
+        bottom: 8%;
+
+        width: 26px;
+
+        border-left: 2px solid rgba(24, 25, 27, 0.88);
+
+        border-radius: 50%;
+      }
+
+      #christmasLights .side-strand.left {
+        left: 13px;
+      }
+
+      #christmasLights .side-strand.right {
+        right: 13px;
+
+        border-left: 0;
+
+        border-right: 2px solid rgba(24, 25, 27, 0.88);
+      }
+
+      #christmasLights .side-strand .bulb {
+        left: -6px;
+
+        top: var(--position);
+      }
+
+      #christmasLights .side-strand.right .bulb {
+        left: auto;
+
+        right: -6px;
+      }
+
+      @keyframes bulbGlow {
+        from {
+          opacity: 0.78;
+
+          filter: brightness(0.9);
+        }
+
+        to {
+          opacity: 1;
+
+          filter: brightness(1.22);
+        }
+      }
+
+      @keyframes bulbColor {
+        0%,
+        24% {
+          background: #ff4545;
+
+          box-shadow:
+            0 0 5px 1px #ff4545,
+            0 0 13px 4px rgba(255, 65, 65, 0.72),
+            0 0 25px 7px rgba(255, 65, 65, 0.42);
+        }
+
+        25%,
+        49% {
+          background: #39dc70;
+
+          box-shadow:
+            0 0 5px 1px #39dc70,
+            0 0 13px 4px rgba(57, 220, 112, 0.72),
+            0 0 25px 7px rgba(57, 220, 112, 0.42);
+        }
+
+        50%,
+        74% {
+          background: #4aaeff;
+
+          box-shadow:
+            0 0 5px 1px #4aaeff,
+            0 0 13px 4px rgba(74, 174, 255, 0.72),
+            0 0 25px 7px rgba(74, 174, 255, 0.42);
+        }
+
+        75%,
+        100% {
+          background: #ffd34e;
+
+          box-shadow:
+            0 0 5px 1px #ffd34e,
+            0 0 13px 4px rgba(255, 211, 78, 0.72),
+            0 0 25px 7px rgba(255, 211, 78, 0.42);
+        }
+      }
+
+      body.christmas-night .primary {
+        box-shadow:
+          0 5px 0 #79363b,
+          0 0 18px rgba(255, 175, 95, 0.22);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        #christmasLights .bulb {
+          animation: none;
+        }
+      }
+
+      @media (max-width: 380px) {
+        .envelope {
+          width: 84vw;
+
+          height: 190px;
+        }
+
+        .envelope-hint {
+          bottom: -38px;
+
+          font-size: 14px;
+        }
+
+        h1 {
+          font-size: 26px;
+        }
+
+        #gameBoard {
+          height: 350px;
+        }
+
+        .card {
+          padding: 22px 16px;
+        }
+      }
+
+      .snowball-projectile {
+        position: fixed;
+        z-index: 1002;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 3px solid #d9efff;
+        background: radial-gradient(
+          circle at 30% 25%,
+          #fff 0 25%,
+          #e8f7ff 58%,
+          #b9d9ed 100%
+        );
+        box-shadow: 0 4px 12px rgba(40, 90, 120, 0.3);
+        cursor: grab;
+        touch-action: none;
+        display: grid;
+        place-items: center;
+        font-size: 23px;
+      }
+      #snowman {
+        position: fixed;
+        z-index: 0;
+        right: clamp(12px, 5vw, 76px);
+        top: 40%;
+        bottom: auto;
+        font-size: clamp(190px, 23vw, 285px);
+        line-height: 1;
+        pointer-events: none;
+        user-select: none;
+        opacity: 0.96;
+        filter: drop-shadow(0 13px 11px rgba(25, 65, 90, 0.34));
+        transform-origin: bottom center;
+        transition: filter 0.25s;
+      }
+      #snowman::after {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        left: 8%;
+        right: 8%;
+        bottom: 2%;
+        height: 13%;
+        border-radius: 50%;
+        background: radial-gradient(
+          ellipse,
+          rgba(30, 65, 90, 0.28),
+          rgba(30, 65, 90, 0) 72%
+        );
+        filter: blur(5px);
+      }
+      body:not(.snowball-game) #snowman {
+        display: none;
+      }
+      #snowman.throwing {
+        animation: snowmanThrow 0.82s ease-in-out;
+        filter: drop-shadow(0 13px 13px rgba(25, 65, 90, 0.48));
+      }
+      #snowman.hit {
+        animation: snowmanHit 0.58s cubic-bezier(0.2, 0.8, 0.3, 1);
+      }
+      #snowman.rage-2 {
+        filter: drop-shadow(0 13px 12px rgba(25, 65, 90, 0.4)) sepia(0.18)
+          saturate(1.3);
+      }
+      #snowman.rage-3 {
+        filter: drop-shadow(0 13px 13px rgba(25, 65, 90, 0.46)) sepia(0.38)
+          saturate(1.65);
+      }
+      #snowman.rage-4 {
+        filter: drop-shadow(0 13px 15px rgba(25, 65, 90, 0.52)) sepia(0.58)
+          saturate(2);
+        animation: snowmanRage 0.42s ease-in-out infinite alternate;
+      }
+      #snowman.rage-5 {
+        filter: drop-shadow(0 13px 17px rgba(180, 55, 35, 0.5)) sepia(0.72)
+          saturate(2.4);
+        animation: snowmanRage 0.25s ease-in-out infinite alternate;
+      }
+      @keyframes snowmanRage {
+        from {
+          transform: rotate(-2deg) translateY(0) scale(1);
+        }
+        to {
+          transform: rotate(2deg) translateY(-7px) scale(1.035);
+        }
+      }
+      #snowmanBubble {
+        position: fixed;
+        z-index: 2;
+        right: clamp(145px, 22vw, 360px);
+        top: clamp(20%, calc(40% - 95px), 38%);
+        bottom: auto;
+        max-width: min(245px, 42vw);
+        padding: 10px 14px;
+        border: 2px solid rgba(150, 205, 232, 0.9);
+        border-radius: 18px 18px 4px 18px;
+        background: rgba(255, 255, 255, 0.96);
+        color: #31556c;
+        font-weight: 800;
+        font-size: clamp(12px, 1.5vw, 16px);
+        line-height: 1.25;
+        text-align: center;
+        box-shadow: 0 5px 18px rgba(20, 60, 90, 0.2);
+        opacity: 0;
+        transform: translateY(8px) scale(0.85);
+        transition:
+          opacity 0.2s,
+          transform 0.2s;
+        pointer-events: none;
+      }
+      #snowmanBubble.show {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      body:not(.snowball-game) #snowmanBubble {
+        display: none;
+      }
+      @keyframes snowmanHit {
+        0%,
+        100% {
+          transform: translateX(0) rotate(0) scale(1);
+        }
+        18% {
+          transform: translateX(-18px) rotate(-13deg) scale(1.04);
+        }
+        38% {
+          transform: translateX(16px) rotate(12deg) scale(0.98);
+        }
+        58% {
+          transform: translateX(-10px) rotate(-8deg) scale(1.03);
+        }
+        78% {
+          transform: translateX(5px) rotate(5deg) scale(1);
+        }
+      }
+      .snow-impact {
+        position: fixed;
+        z-index: 1005;
+        pointer-events: none;
+        font-size: clamp(30px, 5vw, 58px);
+        animation: snowImpact 0.65s ease-out forwards;
+      }
+      @keyframes snowImpact {
+        0% {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(0.2) rotate(-25deg);
+        }
+        25% {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1.2) rotate(10deg);
+        }
+        100% {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(1.65) rotate(35deg);
+        }
+      }
+      @keyframes snowmanThrow {
+        0%,
+        100% {
+          transform: translateX(0) rotate(0) scale(1);
+        }
+        22% {
+          transform: translateX(-10px) rotate(-8deg) scale(1.04);
+        }
+        48% {
+          transform: translateX(12px) rotate(15deg) scale(1.1);
+        }
+        72% {
+          transform: translateX(-4px) rotate(-5deg) scale(1.02);
+        }
+      }
+      .snow-hit {
+        position: fixed;
+        z-index: 1004;
+        pointer-events: none;
+        font-size: clamp(22px, 4vw, 42px);
+        animation: snowHit 0.9s ease-out forwards;
+      }
+      @keyframes snowHit {
+        to {
+          transform: translate(var(--dx), var(--dy)) scale(0.25) rotate(220deg);
+          opacity: 0;
+        }
+      }
+      .snow-splat {
+        position: fixed;
+        z-index: 1003;
+        width: 190px;
+        height: 190px;
+        pointer-events: none;
+        transform: translate(-50%, -50%) scale(0.2);
+        opacity: 0;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 50% 50%,
+          rgba(255, 255, 255, 0.98) 0 13%,
+          rgba(232, 248, 255, 0.94) 14% 27%,
+          rgba(210, 239, 255, 0.82) 28% 43%,
+          rgba(210, 239, 255, 0) 70%
+        );
+        filter: drop-shadow(0 2px 8px rgba(125, 190, 225, 0.3));
+        animation: snowSplat 0.72s ease-out forwards;
+      }
+      .snow-splat::before,
+      .snow-splat::after {
+        content: "";
+        position: absolute;
+        inset: 8%;
+        border-radius: 43% 57% 58% 42% / 56% 42% 58% 44%;
+        background:
+          radial-gradient(
+            ellipse at 50% 0%,
+            rgba(255, 255, 255, 0.95) 0 10%,
+            transparent 11%
+          ),
+          radial-gradient(
+            ellipse at 100% 50%,
+            rgba(255, 255, 255, 0.95) 0 9%,
+            transparent 10%
+          ),
+          radial-gradient(
+            ellipse at 50% 100%,
+            rgba(255, 255, 255, 0.95) 0 12%,
+            transparent 13%
+          ),
+          radial-gradient(
+            ellipse at 0% 50%,
+            rgba(255, 255, 255, 0.95) 0 9%,
+            transparent 10%
+          );
+      }
+      .snow-splat::after {
+        inset: -13%;
+        transform: rotate(25deg) scale(0.72);
+        opacity: 0.8;
+      }
+      @keyframes snowSplat {
+        0% {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(0.18) rotate(-15deg);
+        }
+        24% {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1.15) rotate(8deg);
+        }
+        100% {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(1.55) rotate(22deg);
+        }
+      }
+
+      #winterRoadScene {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+        opacity: 0.9;
+        transition:
+          filter 2.4s ease,
+          opacity 2.4s ease;
+      }
+      .road-haze {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse at 72% 35%,
+            rgba(205, 224, 236, 0.16),
+            transparent 42%
+          ),
+          linear-gradient(180deg, rgba(11, 27, 43, 0.02), rgba(8, 19, 30, 0.32));
+      }
+      .winter-road {
+        position: absolute;
+        left: 7%;
+        bottom: -2%;
+        width: 86%;
+        height: 73%;
+        clip-path: polygon(43.5% 0, 56.5% 0, 100% 100%, 0 100%);
+        background: linear-gradient(
+          90deg,
+          #26313a 0%,
+          #39444d 18%,
+          #414a52 50%,
+          #39444d 82%,
+          #26313a 100%
+        );
+        box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.22);
+        transform: perspective(900px) rotateX(1deg);
+      }
+      .winter-road:before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(
+            90deg,
+            rgba(10, 18, 25, 0.28),
+            transparent 12% 88%,
+            rgba(10, 18, 25, 0.28)
+          ),
+          repeating-linear-gradient(
+            180deg,
+            transparent 0 38px,
+            rgba(255, 255, 255, 0.025) 39px 40px,
+            transparent 41px 78px
+          );
+        opacity: 0.7;
+      }
+      .winter-road:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          rgba(235, 244, 247, 0.22) 0 1px,
+          transparent 1px calc(100% - 1px),
+          rgba(235, 244, 247, 0.22) calc(100% - 1px)
+        );
+      }
+      .road-centerline {
+        position: absolute;
+        left: 49.2%;
+        top: 0;
+        width: 1.6%;
+        height: 100%;
+        background: repeating-linear-gradient(
+          180deg,
+          #e9d79b 0 14px,
+          transparent 14px 31px
+        );
+        clip-path: polygon(42% 0, 58% 0, 100% 100%, 0 100%);
+        opacity: 0.78;
+      }
+      .road-edge {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        width: 2px;
+        background: rgba(230, 240, 245, 0.55);
+      }
+      .edge-left {
+        left: 7%;
+      }
+      .edge-right {
+        right: 7%;
+      }
+      .road-sign {
+        position: absolute;
+        z-index: 1;
+        color: #fff8df;
+        text-align: center;
+        background: linear-gradient(145deg, #285b49, #173d34);
+        border: 5px solid #d6d5c6;
+        border-radius: 5px;
+        box-shadow:
+          0 8px 16px rgba(0, 0, 0, 0.45),
+          inset 0 0 0 2px rgba(255, 255, 255, 0.14);
+        text-shadow: 0 2px 3px #10251d;
+        transform: perspective(400px) rotateY(-9deg);
+      }
+      .road-sign:before {
+        content: "";
+        position: absolute;
+        left: 48%;
+        top: 100%;
+        height: clamp(70px, 13vh, 145px);
+        width: 9px;
+        background: linear-gradient(90deg, #555e62, #d1d1c9, #454d51);
+        box-shadow: 2px 3px 4px #17212a;
+      }
+      .sign-main {
+        left: calc(50% + 19vw);
+        top: 36%;
+        width: clamp(105px, 13vw, 172px);
+        padding: 15px 8px 12px;
+        font-size: clamp(12px, 1.4vw, 18px);
+        letter-spacing: 1.4px;
+      }
+      .sign-main small {
+        display: block;
+        font-size: 0.72em;
+        letter-spacing: 3px;
+        margin-top: 4px;
+      }
+      .sign-main i {
+        display: block;
+        font-style: normal;
+        font-size: 18px;
+        margin-top: 5px;
+        color: #d9f2ff;
+      }
+      .sign-arrow {
+        left: calc(50% - 37vw);
+        top: 57%;
+        width: clamp(75px, 9vw, 118px);
+        padding: 9px 5px;
+        font-size: clamp(13px, 1.4vw, 17px);
+        background: linear-gradient(145deg, #8a3e35, #5c2422);
+      }
+      .sign-arrow b {
+        font-size: 22px;
+        margin-left: 8px;
+      }
+      .sign-snow-cap {
+        position: absolute;
+        left: -7px;
+        right: -7px;
+        top: -9px;
+        height: 13px;
+        border-radius: 70% 55% 35% 30%;
+        background: linear-gradient(180deg, #fff 0%, #dceaf0 65%, #aebfca 100%);
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);
+      }
+      .sign-main:after,
+      .sign-arrow:after {
+        content: "";
+        position: absolute;
+        inset: -7px;
+        border-radius: 7px;
+        background:
+          radial-gradient(circle at 8% 0%, white 0 3px, transparent 4px),
+          radial-gradient(circle at 93% 4%, white 0 4px, transparent 5px),
+          radial-gradient(circle at 30% 100%, #eaf5fa 0 3px, transparent 4px);
+        pointer-events: none;
+      }
+      .gas-station {
+        position: absolute;
+        right: 3%;
+        bottom: 2%;
+        width: clamp(105px, 13vw, 180px);
+        height: clamp(95px, 14vh, 145px);
+        filter: drop-shadow(0 10px 12px rgba(0, 0, 0, 0.45));
+        transform: perspective(500px) rotateY(-5deg);
+      }
+      .station-roof {
+        position: absolute;
+        left: -7%;
+        right: -7%;
+        top: 8%;
+        height: 31%;
+        background: linear-gradient(180deg, #a83e39, #762a2b 68%, #47282c);
+        clip-path: polygon(12% 0, 88% 0, 100% 100%, 0 100%);
+        border-top: 5px solid #e9e0cb;
+        box-shadow: 0 0 17px rgba(255, 190, 104, 0.35);
+      }
+      .station-roof span {
+        position: absolute;
+        top: 10%;
+        left: 25%;
+        font-size: clamp(10px, 1.3vw, 17px);
+        color: #ffdc8b;
+        text-shadow: 0 0 8px #ffbd59;
+        letter-spacing: 5px;
+        animation: stationTwinkle 2s ease-in-out infinite alternate;
+      }
+      .station-building {
+        position: absolute;
+        left: 4%;
+        right: 4%;
+        bottom: 0;
+        height: 68%;
+        background: linear-gradient(90deg, #c9d1d2, #f1e6ce 50%, #9daeb4);
+        border: 3px solid #596873;
+        border-top: 0;
+      }
+      .station-sign {
+        position: absolute;
+        left: 12%;
+        top: 9%;
+        font-size: clamp(7px, 0.8vw, 11px);
+        font-weight: 900;
+        letter-spacing: 1px;
+        color: #fce7b4;
+        background: #294c5a;
+        padding: 3px 7px;
+        border-radius: 2px;
+        box-shadow: 0 0 9px rgba(255, 196, 105, 0.35);
+      }
+      .station-window {
+        position: absolute;
+        left: 13%;
+        bottom: 12%;
+        width: 43%;
+        height: 43%;
+        background: linear-gradient(135deg, #304c5e, #89a9b7 55%, #253d4c);
+        border: 4px solid #e7e0ce;
+        box-shadow: inset 0 0 12px #142b3b;
+      }
+      .station-door {
+        position: absolute;
+        right: 10%;
+        bottom: 0;
+        width: 23%;
+        height: 57%;
+        background: linear-gradient(90deg, #4a5e68, #233a49);
+        border: 3px solid #e7e0ce;
+      }
+      .station-pump {
+        position: absolute;
+        right: -9%;
+        bottom: 0;
+        width: 18%;
+        height: 43%;
+        background: linear-gradient(90deg, #c9d0d1, #f4f0e5, #7b8b91);
+        border: 2px solid #3e515b;
+        border-radius: 4px 4px 1px 1px;
+      }
+      .station-pump:before {
+        content: "";
+        position: absolute;
+        left: 20%;
+        top: 13%;
+        width: 60%;
+        height: 22%;
+        background: #a83e39;
+        border-radius: 2px;
+      }
+      .station-pump i {
+        position: absolute;
+        right: -7px;
+        top: 28%;
+        width: 10px;
+        height: 35%;
+        border: 2px solid #222;
+        background: transparent;
+        border-radius: 8px;
+      }
+      .road-lamp {
+        position: absolute;
+        width: 3px;
+        height: clamp(80px, 16vh, 160px);
+        background: linear-gradient(90deg, #343c43, #aab3b8, #343c43);
+        transform-origin: bottom;
+        filter: drop-shadow(0 0 9px rgba(255, 211, 135, 0.5));
+      }
+      .road-lamp:before {
+        content: "";
+        position: absolute;
+        top: -4px;
+        left: -13px;
+        width: 28px;
+        height: 12px;
+        border-radius: 12px 12px 4px 4px;
+        background: #ffe6a7;
+        box-shadow: 0 0 13px 5px rgba(255, 211, 135, 0.4);
+      }
+      .lamp-one {
+        left: 48%;
+        bottom: 28%;
+        transform: scale(0.62);
+      }
+      .lamp-two {
+        right: 24%;
+        bottom: 30%;
+        transform: scale(0.8);
+      }
+      @keyframes stationTwinkle {
+        to {
+          opacity: 0.55;
+          text-shadow: 0 0 15px #ffd47b;
+        }
+      }
+      body.christmas-night #winterRoadScene {
+        filter: brightness(0.78) saturate(1.2);
+        opacity: 1;
+      }
+      body.christmas-night .road-sign {
+        box-shadow:
+          0 0 12px rgba(255, 203, 120, 0.25),
+          0 8px 16px rgba(0, 0, 0, 0.55),
+          inset 0 0 0 2px rgba(255, 255, 255, 0.16);
+      }
+      body.christmas-night .station-roof {
+        box-shadow: 0 0 22px rgba(255, 181, 83, 0.6);
+      }
+      #snowman {
+        right: clamp(12px, 3vw, 46px);
+        top: 42%;
+        bottom: auto;
+        width: clamp(108px, 11vw, 154px);
+        font-size: clamp(100px, 10.5vw, 148px);
+        line-height: 1;
+        text-align: center;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        filter: drop-shadow(0 8px 8px rgba(10, 28, 42, 0.48));
+      }
+      #snowmanBubble {
+        right: clamp(82px, 10vw, 142px);
+        top: clamp(22%, calc(43% - 48px), 39%);
+        max-width: min(155px, 23vw);
+        font-size: clamp(9px, 1vw, 12px);
+        padding: 6px 8px;
+        z-index: 3;
+      }
+      #snowman.rage-4,
+      #snowman.rage-5 {
+        animation: snowmanRage 0.42s ease-in-out infinite alternate;
+      }
+      #snowman.exploding {
+        animation: snowmanExplode 1.05s cubic-bezier(0.2, 0.8, 0.2, 1) forwards !important;
+        pointer-events: none;
+      }
+      @keyframes snowmanExplode {
+        0% {
+          opacity: 1;
+          transform: scale(1) rotate(0);
+        }
+        28% {
+          opacity: 1;
+          transform: scale(1.55) rotate(-12deg);
+        }
+        58% {
+          opacity: 0.9;
+          transform: scale(2.5) rotate(18deg);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(0.15) rotate(420deg);
+        }
+      }
+      @media (max-width: 700px) {
+        .screen {
+          min-height: 100svh;
+          padding: 12px 9px;
+        }
+        .card {
+          max-width: min(440px, 100%);
+          padding: 22px 15px;
+          border-radius: 22px;
+        }
+        #gameCard {
+          width: min(440px, 100%);
+        }
+        #gameBoard {
+          height: clamp(300px, 48svh, 390px);
+          max-width: 100%;
+          margin: 14px auto;
+        }
+        .winter-road {
+          left: 2%;
+          width: 96%;
+          height: 64%;
+          bottom: -1%;
+          opacity: 0.86;
+        }
+        .road-centerline {
+          background: repeating-linear-gradient(
+            180deg,
+            #e9d79b 0 10px,
+            transparent 10px 25px
+          );
+        }
+        .sign-main {
+          left: auto;
+          right: 3%;
+          top: 35%;
+          width: clamp(68px, 19vw, 104px);
+          padding: 9px 4px 7px;
+          font-size: clamp(8px, 2.2vw, 11px);
+          letter-spacing: 0.5px;
+          border-width: 3px;
+        }
+        .sign-main small {
+          letter-spacing: 1px;
+        }
+        .sign-main i {
+          font-size: 12px;
+          margin-top: 2px;
+        }
+        .sign-arrow {
+          left: 3%;
+          top: 56%;
+          width: clamp(58px, 16vw, 82px);
+          padding: 6px 3px;
+          font-size: clamp(9px, 2vw, 11px);
+          border-width: 3px;
+        }
+        .sign-arrow b {
+          font-size: 15px;
+          margin-left: 3px;
+        }
+        .road-sign:before {
+          width: 5px;
+          height: clamp(45px, 10vh, 85px);
+        }
+        .gas-station {
+          right: 1.5%;
+          bottom: 2%;
+          width: clamp(76px, 22vw, 112px);
+          height: clamp(72px, 15vh, 100px);
+          opacity: 0.9;
+        }
+        .station-roof span {
+          letter-spacing: 2px;
+          font-size: 8px;
+        }
+        .station-sign {
+          font-size: 6px;
+          padding: 2px 3px;
+        }
+        .station-window {
+          border-width: 2px;
+        }
+        .station-door {
+          border-width: 2px;
+        }
+        .station-pump {
+          display: none;
+        }
+        #snowman {
+          right: 2%;
+          top: 43%;
+          bottom: auto;
+          width: clamp(82px, 23vw, 112px);
+          font-size: clamp(78px, 22vw, 106px);
+        }
+        #snowmanBubble {
+          right: clamp(88px, 25vw, 126px);
+          top: 42%;
+          bottom: auto;
+          max-width: min(118px, 34vw);
+          font-size: 9px;
+          padding: 5px 6px;
+        }
+        .road-lamp {
+          opacity: 0.42;
+          height: 75px;
+        }
+        .lamp-one {
+          left: 31%;
+          bottom: 28%;
+        }
+        .lamp-two {
+          right: 20%;
+          bottom: 34%;
+        }
+      }
+      @media (max-width: 390px) {
+        .screen {
+          padding: 8px 6px;
+        }
+        .card {
+          padding: 19px 12px;
+        }
+        h1 {
+          font-size: 25px;
+        }
+        #gameBoard {
+          height: 290px;
+        }
+        .sign-main {
+          right: 2%;
+          top: 32%;
+        }
+        .sign-arrow {
+          left: 2%;
+          top: 54%;
+        }
+        .gas-station {
+          width: 76px;
+          height: 72px;
+        }
+        #snowman {
+          top: 45%;
+        }
+      }
+      #snowCover {
+        position: fixed;
+        inset: 0;
+        z-index: 1100;
+        pointer-events: none;
+        display: none;
+        overflow: hidden;
+        background: radial-gradient(
+          ellipse at 50% 42%,
+          rgba(255, 255, 255, 0.99) 0 18%,
+          rgba(245, 251, 255, 0.97) 44%,
+          rgba(225, 241, 250, 0.94) 100%
+        );
+      }
+      body.snow-covered #snowCover {
+        display: block;
+        animation: snowCoverFall 0.8s ease-out both;
+      }
+      #snowCover:before {
+        content: "";
+        position: absolute;
+        inset: -8%;
+        background:
+          radial-gradient(ellipse at 8% 8%, #fff 0 12%, transparent 30%),
+          radial-gradient(ellipse at 90% 12%, #fff 0 15%, transparent 32%),
+          radial-gradient(ellipse at 22% 88%, #fff 0 18%, transparent 36%),
+          radial-gradient(ellipse at 82% 86%, #fff 0 20%, transparent 38%),
+          radial-gradient(
+            ellipse at 50% 50%,
+            rgba(255, 255, 255, 0.97) 0 38%,
+            transparent 70%
+          );
+        filter: blur(8px);
+      }
+      #snowCoverMessage {
+        pointer-events: auto;
+        z-index: 2;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: min(88vw, 390px);
+        padding: 22px 18px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.84);
+        border: 2px solid rgba(174, 211, 232, 0.9);
+        box-shadow: 0 12px 40px rgba(50, 95, 125, 0.2);
+        color: #31556c;
+        text-align: center;
+        font-weight: 900;
+        font-size: clamp(17px, 4vw, 23px);
+        line-height: 1.4;
+      }
+      #snowCoverMessage small {
+        display: block;
+        margin-top: 9px;
+        font-size: clamp(12px, 3vw, 15px);
+        font-weight: 700;
+      }
+
+      #heavyBallOption {
+        pointer-events: auto;
+        display: block;
+        margin: 14px auto 10px;
+        padding: 11px 15px;
+        border: 2px solid #8bbbd8;
+        border-radius: 14px;
+        background: linear-gradient(145deg, #fff, #dceefa);
+        color: #17415b;
+        font-size: clamp(12px, 3.3vw, 15px);
+        font-weight: 1000;
+        box-shadow: 0 4px 0 #8bbbd8;
+        cursor: pointer;
+      }
+      #heavyBall {
+        pointer-events: auto;
+        display: none;
+        position: relative;
+        z-index: 3;
+        width: 88px;
+        height: 88px;
+        margin: 12px auto 8px;
+        padding: 0;
+        border: 3px solid #a9d8f0;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 32% 25%,
+          #fff 0 10%,
+          #d8f0ff 35%,
+          #78b7dc 100%
+        );
+        font-size: 55px;
+        line-height: 1;
+        box-shadow:
+          0 7px 0 #5485a5,
+          0 10px 22px rgba(35, 80, 110, 0.22);
+        touch-action: none;
+        cursor: grab;
+        user-select: none;
+      }
+      #heavyBall.visible {
+        display: grid;
+        place-items: center;
+      }
+      #heavyBall.held {
+        transform: scale(1.12) rotate(-4deg);
+        box-shadow:
+          0 2px 0 #5485a5,
+          0 0 24px rgba(255, 255, 255, 0.95);
+        cursor: grabbing;
+      }
+      #heavyBallCount {
+        display: block;
+        font-size: 14px;
+        color: #31556c;
+      }
+      .heavy-ball-projectile {
+        position: fixed;
+        z-index: 1200;
+        width: 88px;
+        height: 88px;
+        display: grid;
+        place-items: center;
+        font-size: 70px;
+        pointer-events: none;
+        filter: drop-shadow(0 10px 10px rgba(15, 40, 60, 0.35));
+      }
+      .heavy-snow-particle {
+        position: fixed;
+        z-index: 1201;
+        pointer-events: none;
+        font-style: normal;
+        font-size: clamp(20px, 5vw, 42px);
+        color: #fff;
+        text-shadow: 0 2px 8px #83b6d4;
+        animation: heavySnowBurst 0.85s ease-out forwards;
+      }
+      @keyframes heavySnowBurst {
+        to {
+          transform: translate(var(--drift), -100px) rotate(220deg) scale(1.7);
+          opacity: 0;
+        }
+      }
+      body.heavy-impact {
+        animation: heavyScreenShake 0.42s linear;
+      }
+      @keyframes heavyScreenShake {
+        0%,
+        100% {
+          transform: translate(0, 0);
+        }
+        15% {
+          transform: translate(-9px, 5px);
+        }
+        30% {
+          transform: translate(8px, -5px);
+        }
+        45% {
+          transform: translate(-7px, -3px);
+        }
+        60% {
+          transform: translate(7px, 4px);
+        }
+        75% {
+          transform: translate(-4px, 2px);
+        }
+      }
+      @media (max-width: 420px) {
+        #snowCoverMessage {
+          width: min(90vw, 360px);
+          padding: 18px 13px;
+        }
+        #heavyBallOption {
+          width: 100%;
+        }
+      }
+
+      body.snow-covered #pileClearToggle,
+      body.snow-covered #pileClearBall {
+        display: none !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+      }
+      .storm-shake-button {
+        display: none;
+        width: 100%;
+        margin: 12px auto 8px;
+        background: #e5f3ff;
+        color: #245b7c;
+        border: 2px solid #b8d9eb;
+      }
+      body.snow-covered #stormEnableShakeButton {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #pileClearToggle {
+        position: fixed;
+        left: 10px;
+        bottom: 14px;
+        z-index: 1301;
+        padding: 9px 12px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.94);
+        color: #28536c;
+        font-weight: 900;
+        font-size: 12px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.22);
+        border: 1px solid #b8d9eb;
+        pointer-events: auto;
+      }
+      #pileClearBall {
+        display: none;
+        position: fixed;
+        z-index: 1302;
+        left: 18px;
+        bottom: 62px;
+        width: 88px;
+        height: 88px;
+        border-radius: 50%;
+        border: 3px solid #a9d8f0;
+        background: radial-gradient(
+          circle at 32% 25%,
+          #fff 0 10%,
+          #d8f0ff 35%,
+          #78b7dc 100%
+        );
+        font-size: 55px;
+        line-height: 1;
+        box-shadow:
+          0 7px 0 #5485a5,
+          0 10px 22px rgba(35, 80, 110, 0.22);
+        touch-action: none;
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+        cursor: grab;
+        padding: 0;
+        pointer-events: auto;
+        outline: none;
+      }
+      #pileClearBall.active {
+        display: grid;
+        place-items: center;
+      }
+      #pileClearBall.held {
+        cursor: grabbing;
+        transform: scale(1.12) rotate(-4deg);
+        box-shadow:
+          0 2px 0 #5485a5,
+          0 0 24px rgba(255, 255, 255, 0.95);
+      }
+      .sign-snow-cap {
+        height: var(--sign-snow-height, 13px);
+        transition: height 0.2s ease;
+        z-index: 3;
+      }
+      .roof-snow-cap {
+        position: absolute;
+        left: -5%;
+        right: -5%;
+        top: -11px;
+        height: var(--roof-snow-height, 10px);
+        border-radius: 60% 55% 40% 35%;
+        background: linear-gradient(180deg, #fff, #e5f3fb 72%, #b9d0df);
+        box-shadow: 0 3px 7px rgba(0, 0, 0, 0.25);
+        z-index: 4;
+        transition: height 0.2s ease;
+      }
+      @media (max-width: 600px) {
+        #pileClearToggle {
+          left: 8px;
+          bottom: max(10px, env(safe-area-inset-bottom));
+          padding: 10px 13px;
+          font-size: 12px;
+        }
+        #pileClearBall {
+          width: 76px;
+          height: 76px;
+          font-size: 47px;
+          left: 12px;
+          bottom: calc(56px + env(safe-area-inset-bottom));
+        }
+        #heavyBall {
+          width: 76px;
+          height: 76px;
+          font-size: 47px;
+        }
+        #topSnow {
+          max-width: 100vw;
+        }
+        .screen {
+          min-height: 100svh;
+        }
+      }
+      @media (max-width: 380px) {
+        #pileClearBall {
+          width: 68px;
+          height: 68px;
+          font-size: 42px;
+        }
+        #snowCoverMessage {
+          width: calc(100vw - 28px);
+          padding: 16px 12px;
+        }
+      }
+      @keyframes snowCoverFall {
+        0% {
+          opacity: 0;
+          transform: translateY(-5%);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @media (orientation: landscape) and (max-height: 520px) {
+        .screen {
+          padding: 8px;
+        }
+        .card {
+          max-width: 390px;
+          padding: 14px 16px;
+        }
+        #gameBoard {
+          height: 230px;
+          margin: 8px auto;
+        }
+        .winter-road {
+          height: 100%;
+        }
+        .gas-station {
+          width: 92px;
+          height: 82px;
+        }
+      }
+
+      @media (orientation: portrait) and (max-width: 700px) {
+        html,
+        body {
+          min-height: 100%;
+        }
+        body {
+          background: linear-gradient(
+            180deg,
+            #31495d 0%,
+            #526d80 42%,
+            #263b4c 100%
+          );
+        }
+        .screen {
+          min-height: 100svh;
+          min-height: 100dvh;
+          padding: 16px 10px 24px;
+          justify-content: flex-start;
+        }
+        .screen.active {
+          padding-top: max(14px, env(safe-area-inset-top));
+          padding-bottom: max(24px, env(safe-area-inset-bottom));
+        }
+        .screen.active .card {
+          width: min(92vw, 440px);
+          max-width: 440px;
+          margin: 0 auto;
+          padding: clamp(18px, 5vw, 24px) clamp(13px, 4vw, 19px);
+          background: rgba(248, 250, 252, 0.78);
+          border: 1.5px solid rgba(255, 255, 255, 0.76);
+          box-shadow: 0 12px 34px rgba(5, 20, 32, 0.25);
+          -webkit-backdrop-filter: blur(3px);
+          backdrop-filter: blur(3px);
+        }
+        #gameCard {
+          width: min(92vw, 440px);
+        }
+        #gameBoard {
+          width: 100%;
+          height: clamp(275px, 42svh, 355px);
+          margin: 12px auto;
+        }
+        #winterRoadScene {
+          opacity: 0.98;
+        }
+        .road-haze {
+          background:
+            linear-gradient(
+              180deg,
+              rgba(12, 28, 42, 0.04) 0%,
+              rgba(12, 28, 42, 0.08) 34%,
+              rgba(7, 18, 28, 0.4) 100%
+            ),
+            radial-gradient(
+              ellipse at 50% 60%,
+              rgba(204, 226, 238, 0.13),
+              transparent 58%
+            );
+        }
+        .winter-road {
+          left: 17%;
+          width: 66%;
+          height: 55%;
+          bottom: 0;
+          clip-path: polygon(43% 0, 57% 0, 100% 100%, 0 100%);
+          background: linear-gradient(
+            90deg,
+            #202b34 0%,
+            #3c4851 22%,
+            #4b555d 50%,
+            #3c4851 78%,
+            #202b34 100%
+          );
+        }
+        .winter-road:before {
+          background:
+            linear-gradient(
+              90deg,
+              rgba(8, 15, 22, 0.3),
+              transparent 15% 85%,
+              rgba(8, 15, 22, 0.3)
+            ),
+            repeating-linear-gradient(
+              180deg,
+              transparent 0 30px,
+              rgba(255, 255, 255, 0.035) 31px 32px,
+              transparent 33px 64px
+            );
+        }
+        .road-centerline {
+          left: 49%;
+          width: 2%;
+          background: repeating-linear-gradient(
+            180deg,
+            #e8d59a 0 9px,
+            transparent 9px 23px
+          );
+        }
+        .road-edge {
+          width: 1px;
+          opacity: 0.7;
+        }
+        .sign-main {
+          left: auto;
+          right: 2%;
+          top: 17%;
+          width: clamp(67px, 19vw, 88px);
+          padding: 8px 3px 6px;
+          font-size: clamp(7px, 2vw, 9px);
+          border-width: 3px;
+          letter-spacing: 0.35px;
+        }
+        .sign-main small {
+          letter-spacing: 0.8px;
+          margin-top: 2px;
+        }
+        .sign-main i {
+          font-size: 11px;
+          margin-top: 1px;
+        }
+        .sign-arrow {
+          left: 2%;
+          top: 34%;
+          width: clamp(57px, 16vw, 75px);
+          padding: 6px 3px;
+          font-size: clamp(8px, 2vw, 10px);
+          border-width: 3px;
+        }
+        .sign-arrow b {
+          font-size: 13px;
+          margin-left: 2px;
+        }
+        .road-sign:before {
+          width: 4px;
+          height: clamp(35px, 8vh, 65px);
+        }
+        .gas-station {
+          right: 1%;
+          bottom: 2%;
+          width: clamp(76px, 23vw, 104px);
+          height: clamp(70px, 13vh, 91px);
+          opacity: 0.96;
+          transform: scale(0.94);
+          transform-origin: bottom right;
+        }
+        .station-roof {
+          border-top-width: 3px;
+        }
+        .station-roof span {
+          top: 8%;
+          left: 22%;
+          font-size: 7px;
+          letter-spacing: 1px;
+        }
+        .station-sign {
+          font-size: 5px;
+          padding: 2px 3px;
+          letter-spacing: 0.3px;
+        }
+        .station-window {
+          border-width: 2px;
+        }
+        .station-door {
+          border-width: 2px;
+        }
+        .station-pump {
+          display: block;
+          width: 15%;
+          right: -7%;
+          border-width: 1px;
+        }
+        .road-lamp {
+          height: 64px;
+          opacity: 0.5;
+        }
+        .lamp-one {
+          left: 28%;
+          bottom: 23%;
+          transform: scale(0.5);
+        }
+        .lamp-two {
+          right: 23%;
+          bottom: 27%;
+          transform: scale(0.62);
+        }
+        #snowman {
+          right: 1%;
+          top: 7%;
+          width: clamp(64px, 18vw, 84px);
+          font-size: clamp(62px, 17vw, 82px);
+          line-height: 1;
+          z-index: 0;
+        }
+        #snowmanBubble {
+          right: clamp(65px, 19vw, 88px);
+          top: 8%;
+          max-width: min(105px, 29vw);
+          font-size: 8px;
+          padding: 4px 5px;
+        }
+        #snowman.hit {
+          animation: snowmanHit 0.58s cubic-bezier(0.2, 0.8, 0.3, 1);
+        }
+        #snowman.exploding {
+          animation: snowmanExplode 1.05s cubic-bezier(0.2, 0.8, 0.2, 1)
+            forwards !important;
+        }
+        #snowCoverMessage {
+          width: min(88vw, 360px);
+          padding: 19px 15px;
+        }
+      }
+      @media (max-width: 700px) {
+        body.snowball-game #snowman {
+          position: fixed !important;
+          z-index: 70 !important;
+          top: max(10px, env(safe-area-inset-top)) !important;
+          right: 7px !important;
+          bottom: auto !important;
+          width: auto !important;
+          max-width: 27vw;
+          font-size: clamp(66px, 19vw, 94px) !important;
+          line-height: 1 !important;
+          opacity: 1 !important;
+          overflow: visible !important;
+          filter: drop-shadow(0 5px 9px rgba(5, 20, 35, 0.55)) !important;
+          transform: translateZ(0);
+        }
+        body.snowball-game #snowmanBubble {
+          position: fixed !important;
+          z-index: 71 !important;
+          top: max(16px, calc(env(safe-area-inset-top) + 4px)) !important;
+          right: clamp(78px, 24vw, 112px) !important;
+          left: auto !important;
+          bottom: auto !important;
+          max-width: min(48vw, 175px) !important;
+          font-size: 10px !important;
+          padding: 6px 8px !important;
+        }
+      }
+
+      @media (orientation: portrait) and (max-width: 390px) {
+        .screen {
+          padding-left: 7px;
+          padding-right: 7px;
+        }
+        .screen.active .card,
+        #gameCard {
+          width: 94vw;
+          padding: 17px 11px;
+          border-radius: 19px;
+        }
+        h1 {
+          font-size: clamp(22px, 6.2vw, 25px);
+        }
+        #gameBoard {
+          height: clamp(255px, 39svh, 300px);
+        }
+        .winter-road {
+          left: 20%;
+          width: 60%;
+          height: 51%;
+        }
+        .sign-main {
+          top: 15%;
+          right: 1%;
+        }
+        .sign-arrow {
+          top: 32%;
+          left: 1%;
+        }
+        .gas-station {
+          width: 73px;
+          height: 68px;
+        }
+        #snowman {
+          top: 5%;
+          right: 0;
+          font-size: 60px;
+          width: 62px;
+        }
+        #snowmanBubble {
+          top: 6%;
+          right: 61px;
+          max-width: 92px;
+        }
+      }
+
+      
+      #letterCard.message-card {
+        background: linear-gradient(
+          135deg,
+          #fffaf0 0%,
+          #f7ecd7 48%,
+          #fff8e9 100%
+        ) !important;
+        border: 1px solid rgba(130, 94, 55, 0.34) !important;
+        color: #493a2b !important;
+        box-shadow:
+          0 18px 48px rgba(0, 0, 0, 0.42),
+          0 2px 0 rgba(255, 255, 255, 0.8) inset !important;
+        overflow: visible;
+        position: relative;
+      }
+      #letterCard.message-card::before {
+        content: "";
+        position: absolute;
+        inset: 9px;
+        border: 1px solid rgba(174, 139, 91, 0.22);
+        border-radius: 18px;
+        pointer-events: none;
+        z-index: 0;
+      }
+      #letterCard .message-content {
+        position: relative;
+        z-index: 2;
+        padding: 12px 10px 8px;
+        background: repeating-linear-gradient(
+          0deg,
+          rgba(151, 119, 78, 0.025) 0px,
+          rgba(151, 119, 78, 0.025) 1px,
+          transparent 1px,
+          transparent 27px
+        );
+        border-radius: 12px;
+      }
+      #letterCard .message-content > div:first-child {
+        filter: sepia(0.25);
+      }
+      #letterCard h1,
+      #letterCard p,
+      #letterCard .letter {
+        color: #493a2b !important;
+        text-shadow: none !important;
+      }
+      #letterCard h1 {
+        color: #9b4145 !important;
+      }
+      #letterCard .page-number {
+        color: #987b58 !important;
+      }
+      #letterCard .letter {
+        position: relative;
+        min-height: 390px;
+        margin: 18px 0 20px;
+        padding: 28px 24px;
+        border-radius: 3px;
+        border: 1px solid rgba(155, 119, 75, 0.25);
+        background:
+          linear-gradient(
+            90deg,
+            transparent 0 30px,
+            rgba(191, 112, 112, 0.18) 30px 31px,
+            transparent 31px
+          ),
+          repeating-linear-gradient(
+            to bottom,
+            #fffdf7 0px,
+            #fffdf7 30px,
+            #eadfc9 31px,
+            #fffdf7 32px
+          );
+        box-shadow:
+          0 5px 14px rgba(91, 66, 39, 0.14),
+          inset 0 0 28px rgba(192, 159, 111, 0.08);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 16px;
+        line-height: 1.95;
+        color: #493a2b !important;
+        white-space: pre-line;
+      }
+      #letterCard .letter-controls {
+        position: relative;
+        z-index: 3;
+      }
+      #letterCard .secondary {
+        background: #eadcc5;
+        color: #76583a;
+      }
+      #letterCard .primary {
+        background: #b94b50;
+      }
+      #letterCard .message-lights {
+        opacity: 0.78;
+      }
+      @media (max-width: 480px) {
+        #letterCard.message-card {
+          padding: 20px 14px !important;
+          border-radius: 18px;
+        }
+        #letterCard .letter {
+          min-height: 340px;
+          padding: 22px 17px 22px 27px;
+          font-size: 15px;
+          line-height: 1.9;
+        }
+        #letterCard .message-content {
+          padding: 8px 4px;
+        }
+      }
+
+      
+      #letterCard.message-card {
+        width: min(88vw, 560px) !important;
+        max-width: 560px !important;
+      }
+      #letterCard .letter {
+        padding-left: 34px;
+        padding-right: 34px;
+      }
+      @media (max-width: 600px) {
+        #letterCard.message-card {
+          width: min(94vw, 560px) !important;
+          max-width: 560px !important;
+        }
+        #letterCard .letter {
+          padding-left: 27px;
+          padding-right: 20px;
+        }
+      }
+
+      
+      .tree-celebration-lights {
+        position: absolute;
+        inset: 4% 8% 5%;
+        z-index: 35;
+        width: 84%;
+        height: 91%;
+        overflow: visible;
+        pointer-events: none;
+        opacity: 0;
+        animation: treeLightsReveal 1.1s ease forwards;
+      }
+      .tree-celebration-lights path {
+        fill: none;
+        stroke: rgba(35, 55, 43, 0.9);
+        stroke-width: 2.5;
+        stroke-linecap: round;
+      }
+      .tree-celebration-lights circle {
+        stroke: rgba(255, 255, 255, 0.72);
+        stroke-width: 1.2;
+        animation: treeBulbGlow 1.15s ease-in-out infinite alternate;
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+      @keyframes treeLightsReveal {
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes treeBulbGlow {
+        from {
+          opacity: 0.62;
+          filter: brightness(0.85);
+        }
+        to {
+          opacity: 1;
+          filter: brightness(1.45) drop-shadow(0 0 5px currentColor);
+        }
+      }
+      #envelopeIntro.show .envelope {
+        animation: envelopeFlight 2.05s cubic-bezier(0.18, 0.72, 0.22, 1)
+          forwards;
+      }
+      @keyframes envelopeFlight {
+        0% {
+          opacity: 0;
+          transform: translate(-46vw, -38vh) rotate(-32deg) scale(0.24);
+        }
+        28% {
+          opacity: 1;
+          transform: translate(-20vw, -22vh) rotate(18deg) scale(0.58);
+        }
+        53% {
+          opacity: 1;
+          transform: translate(18vw, -12vh) rotate(390deg) scale(0.78);
+        }
+        76% {
+          opacity: 1;
+          transform: translate(7vw, 5vh) rotate(700deg) scale(0.94);
+        }
+        88% {
+          opacity: 1;
+          transform: translate(-2vw, -1vh) rotate(715deg) scale(1.04);
+        }
+        100% {
+          opacity: 1;
+          transform: translate(0, 0) rotate(720deg) scale(1);
+        }
+      }
+      @media (max-width: 600px) {
+        @keyframes envelopeFlight {
+          0% {
+            opacity: 0;
+            transform: translate(-42vw, -34vh) rotate(-30deg) scale(0.22);
+          }
+          30% {
+            opacity: 1;
+            transform: translate(-18vw, -18vh) rotate(150deg) scale(0.55);
+          }
+          58% {
+            opacity: 1;
+            transform: translate(17vw, -8vh) rotate(390deg) scale(0.78);
+          }
+          82% {
+            opacity: 1;
+            transform: translate(4vw, 4vh) rotate(650deg) scale(1.02);
+          }
+          100% {
+            opacity: 1;
+            transform: translate(0, 0) rotate(720deg) scale(1);
+          }
+        }
+      }
+
+
+      html {
+        min-width: 320px;
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+
+      body {
+        min-width: 320px;
+        min-height: 100vh;
+        min-height: 100svh;
+        overflow-x: clip;
+      }
+
+      button,
+      .primary,
+      .secondary,
+      .shake-button,
+      .christmas-ambience-toggle {
+        min-height: 44px;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      img,
+      svg,
+      video,
+      canvas {
+        max-width: 100%;
+      }
+
+      .screen {
+        width: 100%;
+        min-height: 100vh;
+        min-height: 100svh;
+        padding: max(14px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(14px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+      }
+
+      .card {
+        min-width: 0;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+      }
+
+      .primary,
+      .secondary,
+      .shake-button,
+      .christmas-ambience-toggle {
+        max-width: 100%;
+        white-space: normal;
+        line-height: 1.35;
+      }
+
+      #gameBoard,
+      #finalTreeBoard {
+        max-width: 100%;
+        touch-action: none;
+      }
+
+      #finalTreeDisplay {
+        min-width: 0;
+        overflow: hidden;
+      }
+
+      .letter-controls {
+        flex-wrap: wrap;
+      }
+
+      @media (max-width: 700px) {
+        .screen {
+          justify-content: flex-start;
+          padding-top: max(14px, env(safe-area-inset-top));
+          padding-bottom: max(18px, env(safe-area-inset-bottom));
+        }
+
+        .screen.active {
+          justify-content: center;
+        }
+
+        .card,
+        #gameCard,
+        #finalScreen .card {
+          width: 100%;
+          max-width: 520px;
+          padding: clamp(16px, 4.5vw, 23px) clamp(12px, 4vw, 18px);
+          border-radius: 20px;
+        }
+
+        h1 {
+          font-size: clamp(23px, 6vw, 30px);
+          line-height: 1.2;
+          overflow-wrap: anywhere;
+        }
+
+        h2 {
+          font-size: clamp(19px, 5vw, 23px);
+          line-height: 1.25;
+        }
+
+        p,
+        .letter {
+          overflow-wrap: anywhere;
+          font-size: clamp(14px, 3.8vw, 16px);
+          line-height: 1.65;
+        }
+
+        #gameBoard {
+          width: 100%;
+          height: clamp(285px, 52svh, 390px);
+          margin: 12px auto;
+        }
+
+        #tray {
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 8px;
+        }
+
+        .tray-piece {
+          max-width: 100%;
+          touch-action: none;
+        }
+
+        .letter-controls {
+          justify-content: center;
+          gap: 8px;
+        }
+
+        .letter-controls > button {
+          flex: 1 1 110px;
+          padding: 11px 12px;
+        }
+
+        #finalTreeBoard {
+          width: min(300px, 100%);
+          height: clamp(300px, 55svh, 350px);
+        }
+
+        .christmas-ambience-toggle {
+          width: min(100%, 320px);
+          padding: 12px 14px;
+        }
+      }
+
+      @media (max-width: 360px) {
+        .screen {
+          padding-left: 7px;
+          padding-right: 7px;
+        }
+
+        .card,
+        #gameCard,
+        #finalScreen .card {
+          padding: 15px 10px;
+          border-radius: 17px;
+        }
+
+        .primary,
+        .secondary,
+        .shake-button {
+          padding: 11px 14px;
+          font-size: 14px;
+        }
+
+        #gameBoard {
+          height: 275px;
+        }
+      }
+
+      @media (orientation: landscape) and (max-height: 520px) {
+        .screen {
+          justify-content: flex-start;
+          padding-top: 10px;
+          padding-bottom: 10px;
+        }
+
+        .screen.active {
+          justify-content: flex-start;
+        }
+
+        #gameBoard {
+          height: min(58vh, 300px);
+        }
+
+        #finalTreeBoard {
+          height: min(62vh, 300px);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="winterRoadScene" aria-hidden="true">
+      <div class="road-haze"></div>
+      <div class="winter-road">
+        <div class="road-centerline"></div>
+        <div class="road-edge edge-left"></div>
+        <div class="road-edge edge-right"></div>
+      </div>
+      <div class="road-sign sign-main">
+        <div class="sign-snow-cap"></div>
+        <span>CHRISTMAS</span><small>VILLAGE</small><i>❄</i>
+      </div>
+      <div class="road-sign sign-arrow">
+        <div class="sign-snow-cap"></div>
+        <span>GAS</span><b>➜</b>
+      </div>
+      <div class="gas-station">
+        <div class="station-roof">
+          <div class="roof-snow-cap"></div>
+          <span>✦ ✦ ✦</span>
+        </div>
+        <div class="station-building">
+          <div class="station-sign">GAS · 24 HRS</div>
+          <div class="station-window"></div>
+          <div class="station-door"></div>
+        </div>
+        <div class="station-pump"><i></i></div>
+      </div>
+      <div class="road-lamp lamp-one"></div>
+      <div class="road-lamp lamp-two"></div>
+    </div>
+
+    <div id="snowCover" aria-live="assertive">
+      <div id="snowCoverMessage">
+        ❄️ OH NO! A HUGE SNOWSTORM! ❄️<small
+          >Shake your phone to remove the snowstorm! If you want to use the
+          ball, tap the option below, then hold the ball and drop it 5 times to
+          remove the snowstorm.</small
+        ><button
+          id="stormEnableShakeButton"
+          class="shake-button storm-shake-button"
+          type="button"
+          onclick="enableShake(true)"
+        >📱 ENABLE SHAKE TO CLEAR SNOW</button
+        ><button id="heavyBallOption" type="button">
+          🏐 USE THE SUPER DUPER HEAVY BALL</button
+        ><button
+          id="heavyBall"
+          type="button"
+          aria-label="Hold and drop the heavy ball"
+        >
+          🏐</button
+        ><strong id="heavyBallCount">0 / 5 drops</strong>
+      </div>
+    </div>
+    <button
+      id="pileClearToggle"
+      type="button"
+      aria-label="Use the snow-clearing ball"
+    >
+      🏐 Clear snow
+    </button>
+    <button
+      id="pileClearBall"
+      type="button"
+      aria-label="Drag this ball over a snow pile"
+    >
+      🏐
+    </button>
+
+    <div id="leftSnow" class="side-snow"></div>
+
+    <div id="rightSnow" class="side-snow"></div>
+
+    <div id="snowContainer"></div>
+
+    <div id="topSnow" aria-hidden="true"></div>
+
+    <div id="snowman" aria-hidden="true" title="Snowman">⛄</div>
+    <div id="snowmanBubble" aria-live="polite"></div>
+
+    <div id="christmasLights" aria-hidden="true"></div>
+
+    <div id="envelopeIntro" aria-hidden="true">
+      <button
+        class="envelope"
+        id="giftEnvelope"
+        type="button"
+        aria-label="Open your Christmas letter"
+      >
+        <span class="envelope-back"></span>
+
+        <span class="envelope-flap"></span>
+
+        <span class="envelope-front"></span>
+
+        <span class="envelope-seal">❤️</span>
+
+        <span class="envelope-hint">Tap to open your letter</span>
+      </button>
+    </div>
+
+    <section id="welcome" class="screen active">
+      <div class="card">
+        <div class="tree-emoji">🎄</div>
+
+        <p class="subtitle">A little Christmas surprise made just for you</p>
+
+        <h1>Merry Christmas! ❤️</h1>
+
+        <p>
+          I have something special for you this Christmas. But before you can
+          open your gift, there's a little Christmas mission waiting for you.
+        </p>
+
+        <p>Are you ready? 🎁</p>
+
+        <button class="primary" onclick="startGame()">Let's Play! 🎄</button>
+      </div>
+    </section>
+
+    <section id="game" class="screen">
+      <div class="card" id="gameCard">
+        <h1>Build Our Christmas Tree 🎄</h1>
+
+        <p>
+          Drag all the pieces into their correct places to decorate your
+          Christmas tree!
+        </p>
+
+        <p id="progress">0 / 8 pieces placed</p>
+
+        <div id="gameBoard"></div>
+
+        <p id="shakeStatus">
+          ❄️ Shake your phone to clear the snow. If your phone asks, allow motion
+          access.
+        </p>
+        <button id="enableShakeButton" class="shake-button" type="button" onclick="enableShake(true)">
+          📱 Enable phone shaking
+        </button>
+
+        <button
+          id="makeSnowball"
+          class="primary"
+          type="button"
+          onclick="makeSnowball()"
+        >
+          ⛄ Make a snowball
+        </button>
+        <p class="subtitle" id="snowballHint">
+          Drag the snowball from the snow on top of this card, then throw it
+          anywhere!
+        </p>
+        <p class="subtitle">Hold a piece and move it to the matching spot.</p>
+
+        <div id="tray"></div>
+
+        <button
+          id="finishButton"
+          class="primary"
+          style="display: none"
+          onclick="showEnvelopeGift()"
+        >
+          Open Your Christmas Gift ❤️
+        </button>
+      </div>
+    </section>
+
+    <section id="letterScreen" class="screen">
+      <div class="card message-card" id="letterCard">
+        <div class="message-lights" aria-hidden="true">
+          <span class="corner-light top-left"
+            ><i></i><i></i><i></i><i></i><i></i
+          ></span>
+
+          <span class="corner-light top-right"
+            ><i></i><i></i><i></i><i></i><i></i
+          ></span>
+
+          <span class="corner-light bottom-left"
+            ><i></i><i></i><i></i><i></i><i></i
+          ></span>
+
+          <span class="corner-light bottom-right"
+            ><i></i><i></i><i></i><i></i><i></i
+          ></span>
+        </div>
+
+        <div class="message-content">
+          <div style="font-size: 50px">💌</div>
+
+          <h1 id="letterTitle">For My Love</h1>
+
+          <p class="page-number" id="pageNumber">Page 1 of 4</p>
+
+          <div class="letter" id="letterText"></div>
+        </div>
+
+        <div class="letter-controls">
+          <button
+            class="secondary"
+            id="previousButton"
+            onclick="changePage(-1)"
+            disabled
+          >
+            ← Back
+          </button>
+
+          <button class="primary" id="nextButton" onclick="changePage(1)">
+            Next →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="finalScreen" class="screen">
+      <div class="card message-card final-message-card">
+        <div class="message-lights" aria-hidden="true">
+          <span class="corner-light top-left"
+            ><i></i><i></i><i></i><i></i><i></i
+          ></span>
+
+          <span class="corner-light top-right"
+            ><i></i><i></i><i></i><i></i><i></i
+          ></span>
+
+          <span class="corner-light bottom-left"
+            ><i></i><i></i><i></i><i></i><i></i
+          ></span>
+
+          <span class="corner-light bottom-right"
+            ><i></i><i></i><i></i><i></i><i></i
+          ></span>
+        </div>
+
+        <div class="message-content">
+          <div class="heart">❤️</div>
+
+          <h1>Merry Christmas, My Love!</h1>
+
+          <p>You are my favorite gift, today and every day.</p>
+
+          <p>
+            I love you so much, my beautiful girl. Thank you for being my
+            happiness.
+          </p>
+
+          <div style="font-size: 45px">🎄🎁💋</div>
+
+          <p><strong>Forever yours. ❤️</strong></p>
+
+          <button class="primary" onclick="restart()">Read It Again 💌</button>
+          <button
+            class="christmas-ambience-toggle"
+            id="christmasAmbienceToggle"
+            type="button"
+            aria-pressed="false"
+            onclick="toggleChristmasAmbience()"
+          >✨ Turn Christmas Lights Off</button>
+          <div
+            id="finalTreeDisplay"
+            aria-label="The Christmas tree you built, decorated with glowing Christmas lights"
+          ></div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      const snowContainer = document.getElementById("snowContainer");
+
+      for (let i = 0; i < 35; i++) {
+        const snow = document.createElement("div");
+
+        snow.className = "snowflake";
+
+        snow.textContent = "❄";
+
+        snow.style.left = Math.random() * 100 + "vw";
+
+        snow.style.animationDuration = 5 + Math.random() * 9 + "s";
+
+        snow.style.animationDelay = Math.random() * 8 + "s";
+
+        snow.style.fontSize = 10 + Math.random() * 14 + "px";
+
+        snowContainer.appendChild(snow);
+      }
+
+      function showScreen(id) {
+        document
+
+          .querySelectorAll(".screen")
+
+          .forEach((screen) => screen.classList.remove("active"));
+
+        document.getElementById(id).classList.add("active");
+        document.body.classList.toggle("snowball-game", id === "game");
+
+        positionSnow();
+
+        requestAnimationFrame(positionSnow);
+      }
+
+      const pieces = [
+        {
+          id: "top",
+
+          type: "tree-part",
+
+          x: 50,
+
+          y: 24,
+
+          w: 110,
+
+          h: 95,
+
+          label: "🌲",
+        },
+
+        {
+          id: "middle",
+
+          type: "tree-part middle",
+
+          x: 50,
+
+          y: 43,
+
+          w: 150,
+
+          h: 110,
+
+          label: "🌲",
+        },
+
+        {
+          id: "bottom",
+
+          type: "tree-part bottom",
+
+          x: 50,
+
+          y: 64,
+
+          w: 190,
+
+          h: 125,
+
+          label: "🌲",
+        },
+
+        { id: "trunk", type: "trunk", x: 50, y: 82, w: 48, h: 58, label: "🪵" },
+
+        { id: "star", type: "star", x: 50, y: 9, w: 65, h: 65, label: "⭐" },
+
+        {
+          id: "red",
+
+          type: "ornament",
+
+          x: 35,
+
+          y: 43,
+
+          w: 48,
+
+          h: 48,
+
+          label: "🔴",
+        },
+
+        {
+          id: "gold",
+
+          type: "ornament",
+
+          x: 65,
+
+          y: 58,
+
+          w: 48,
+
+          h: 48,
+
+          label: "🟡",
+        },
+
+        {
+          id: "blue",
+
+          type: "ornament",
+
+          x: 50,
+
+          y: 69,
+
+          w: 48,
+
+          h: 48,
+
+          label: "🔵",
+        },
+      ];
+
+      let placed = new Set();
+
+      let page = 0;
+
+      let sideSnowLevel = 0;
+
+      let snowInterval = null;
+
+      let lastShake = 0;
+
+      let heavyBallThrows = 0;
+      let heavyBallBusy = false;
+      let shakeEnabled = false;
+      let shakeListenerAttached = false;
+      let lastAcceleration = null;
+
+      let topSnowLevel = 0;
+
+      let sideSpillLevel = 0;
+
+      let motionPermissionRequested = false;
+      let shakeSamples = 0;
+      let shakeImpulseTimes = [];
+      let lastMotionEventAt = 0;
+
+      function startGame() {
+        document.body.classList.remove(
+          "christmas-night",
+          "christmas-transition",
+          "christmas-ambience-off",
+        );
+        const ambienceButton = document.getElementById("christmasAmbienceToggle");
+        if (ambienceButton) {
+          ambienceButton.setAttribute("aria-pressed", "false");
+          ambienceButton.textContent = "✨ Turn Christmas Lights Off";
+        }
+
+        showScreen("game");
+
+        positionSnow();
+
+        createGame();
+
+        enableShake();
+      }
+
+      function buildChristmasLights() {
+        const holder = document.getElementById("christmasLights");
+
+        if (!holder || holder.dataset.ready) return;
+
+        holder.dataset.ready = "true";
+
+        const colors = [
+          ["#ffd27a", "rgba(255,190,90,.8)"],
+
+          ["#ff6b70", "rgba(255,75,90,.75)"],
+
+          ["#8be6ad", "rgba(95,235,150,.7)"],
+
+          ["#8dc9ff", "rgba(100,175,255,.75)"],
+        ];
+
+        ["swag-one", "swag-two", "swag-three"].forEach((shape, swagIndex) => {
+          const strand = document.createElement("div");
+
+          strand.className = "light-string " + shape;
+
+          for (let i = 0; i < 7; i++) {
+            const bulb = document.createElement("span");
+
+            const color = colors[(i + swagIndex * 2) % colors.length];
+
+            bulb.className = "bulb";
+
+            bulb.style.left = 5 + i * 14 + "%";
+
+            bulb.style.setProperty(
+              "--bulb-top",
+
+              18 + Math.sin((i / 6) * Math.PI) * 15 + "px",
+            );
+
+            bulb.style.setProperty("--bulb", color[0]);
+
+            bulb.style.setProperty("--glow", color[1]);
+
+            bulb.style.setProperty("--delay", Math.random() * 2.5 + "s");
+
+            bulb.style.setProperty("--color-delay", -Math.random() * 24 + "s");
+
+            strand.appendChild(bulb);
+          }
+
+          holder.appendChild(strand);
+        });
+
+        ["left", "right"].forEach((side) => {
+          const strand = document.createElement("div");
+
+          strand.className = "side-strand " + side;
+
+          for (let i = 0; i < 7; i++) {
+            const bulb = document.createElement("span");
+
+            const color =
+              colors[(i + (side === "right" ? 2 : 0)) % colors.length];
+
+            bulb.className = "bulb";
+
+            bulb.style.setProperty("--position", 5 + i * 14 + "%");
+
+            bulb.style.setProperty("--bulb", color[0]);
+
+            bulb.style.setProperty("--glow", color[1]);
+
+            bulb.style.setProperty("--delay", Math.random() * 2.5 + "s");
+
+            bulb.style.setProperty("--color-delay", -Math.random() * 24 + "s");
+
+            strand.appendChild(bulb);
+          }
+
+          holder.appendChild(strand);
+        });
+      }
+
+      buildChristmasLights();
+
+      function createGame() {
+        const board = document.getElementById("gameBoard");
+
+        const tray = document.getElementById("tray");
+
+        board.innerHTML = "";
+
+        tray.innerHTML = "";
+
+        placed.clear();
+
+        document.getElementById("finishButton").style.display = "none";
+
+        updateProgress();
+
+        pieces.forEach((piece) => {
+          const slot = document.createElement("div");
+
+          slot.className = "slot";
+
+          slot.dataset.id = piece.id;
+
+          slot.style.left = piece.x + "%";
+
+          slot.style.top = piece.y + "%";
+
+          slot.style.width = piece.w + "px";
+
+          slot.style.height = piece.h + "px";
+
+          board.appendChild(slot);
+
+          const item = document.createElement("div");
+
+          item.className = "piece tray-piece";
+
+          item.dataset.id = piece.id;
+
+          const content = document.createElement("div");
+
+          content.className = piece.type;
+
+          content.textContent = piece.label;
+
+          item.appendChild(content);
+
+          tray.appendChild(item);
+
+          enableDrag(item, piece, board, tray);
+        });
+      }
+
+      function enableDrag(item, piece, board, tray) {
+        let offsetX = 0,
+          offsetY = 0,
+          dragging = false;
+        item.addEventListener("pointerdown", (e) => {
+          if (placed.has(piece.id)) return;
+          e.preventDefault();
+          dragging = true;
+          item.classList.add("moving");
+          const rect = item.getBoundingClientRect();
+          offsetX = e.clientX - rect.left;
+          offsetY = e.clientY - rect.top;
+          item.style.position = "fixed";
+          item.style.left = rect.left + "px";
+          item.style.top = rect.top + "px";
+          item.style.width = rect.width + "px";
+          item.style.height = rect.height + "px";
+          item.style.transform = "none";
+          item.style.zIndex = "1000";
+          document.body.appendChild(item);
+          item.setPointerCapture(e.pointerId);
+        });
+        item.addEventListener("pointermove", (e) => {
+          if (!dragging) return;
+          item.style.left = e.clientX - offsetX + "px";
+          item.style.top = e.clientY - offsetY + "px";
+        });
+        const finishDrag = (e) => {
+          if (!dragging) return;
+          dragging = false;
+          item.classList.remove("moving");
+          if (placed.has(piece.id)) return;
+          const rect = board.getBoundingClientRect();
+          const targetX = rect.left + (rect.width * piece.x) / 100;
+          const targetY = rect.top + (rect.height * piece.y) / 100;
+          const targetDistance = Math.hypot(
+            e.clientX - targetX,
+            e.clientY - targetY,
+          );
+          if (targetDistance < 75) {
+            placePiece(item, piece, board);
+          } else {
+            item.className = "piece tray-piece";
+            item.removeAttribute("style");
+            tray.appendChild(item);
+          }
+        };
+        item.addEventListener("pointerup", finishDrag);
+        item.addEventListener("pointercancel", finishDrag);
+      }
+
+      function placePiece(item, piece, board) {
+        if (placed.has(piece.id)) return;
+        const slot = board.querySelector(`.slot[data-id="${piece.id}"]`);
+        if (!slot || slot.classList.contains("filled")) return;
+        slot.classList.add("filled");
+        slot.innerHTML = "";
+        const content = document.createElement("div");
+        content.className = piece.type;
+        content.textContent = piece.label;
+        slot.appendChild(content);
+        item.remove();
+        placed.add(piece.id);
+        updateProgress();
+        if (placed.size === pieces.length) {
+          document.getElementById("finishButton").style.display = "none";
+          document.getElementById("progress").textContent =
+            "You did it, my love! 🎄❤️";
+          setTimeout(() => {
+            document.body.classList.add("christmas-transition");
+            setTimeout(() => {
+              document.body.classList.add("christmas-night");
+              addTreeCelebrationLights();
+              setTimeout(showEnvelopeGift, 1350);
+            }, 1800);
+          }, 3000);
+        }
+      }
+
+      function updateProgress() {
+        document.getElementById("progress").textContent =
+          placed.size + " / " + pieces.length + " pieces placed";
+      }
+
+      let snowballActive = false;
+      let snowmanHits = 0;
+      let snowmanRespawning = false;
+      let snowmanBubbleTimer = null;
+      const trajectoryStyles = [
+        "high rainbow",
+        "low skimmer",
+        "left hook",
+        "right hook",
+        "double dip",
+        "big loop",
+        "quick corkscrew",
+        "lazy spiral",
+        "zigzag",
+        "sidewinder",
+        "updraft",
+        "downdraft",
+        "boomerang curve",
+        "wide left sweep",
+        "wide right sweep",
+        "tiny hop",
+        "giant lob",
+        "flat fastball",
+        "drifting feather",
+        "windy curve",
+        "S-curve",
+        "reverse S",
+        "rollercoaster",
+        "bounce arc",
+        "shallow rainbow",
+        "steep rainbow",
+        "left corkscrew",
+        "right corkscrew",
+        "wavy glide",
+        "flutter",
+        "loop-de-loop",
+        "double S",
+        "triple wiggle",
+        "high left drift",
+        "high right drift",
+        "low left drift",
+        "low right drift",
+        "spiral drop",
+        "spiral climb",
+        "side flip",
+        "wide orbit",
+        "tight orbit",
+        "comet trail",
+        "swooping hawk",
+        "floaty moonshot",
+        "quick snap",
+        "curvy launcher",
+        "wild zigzag",
+      ];
+      const snowballTrajectories = trajectoryStyles.map((name, i) => ({
+        name,
+        lift: [-230, -175, -115, -55, 35, 95][i % 6],
+        side: [-230, -155, -85, 85, 155, 230][Math.floor(i / 6) % 6],
+        waves: 1 + (i % 4),
+        phase: ((i % 8) * Math.PI) / 4,
+        duration: 620 + (i % 7) * 75,
+        amplitude: 28 + (i % 5) * 17,
+        spin: 540 + (i % 6) * 180,
+      }));
+
+      function animateCurvedSnowball(
+        element,
+        fromX,
+        fromY,
+        toX,
+        toY,
+        options = {},
+      ) {
+        const route =
+          snowballTrajectories[
+            Math.floor(Math.random() * snowballTrajectories.length)
+          ];
+        const dx = toX - fromX,
+          dy = toY - fromY;
+        const variation = (Math.random() - 0.5) * 100;
+        const side = route.side + variation;
+        const lift = route.lift + (Math.random() - 0.5) * 90;
+        const amplitude = route.amplitude + Math.random() * 32;
+        const phase = route.phase + Math.random() * Math.PI * 2;
+        const waves = route.waves + (Math.random() < 0.35 ? 1 : 0);
+        const points = [0, 0.14, 0.28, 0.42, 0.56, 0.7, 0.84, 1];
+        const keyframes = points.map((t, index) => {
+          const arc = Math.sin(Math.PI * t);
+          const wave =
+            Math.sin(waves * 2 * Math.PI * t + phase) * amplitude * arc;
+          const sweep = Math.sin(Math.PI * t) * side;
+          const x = fromX + dx * t + sweep + wave * 0.55;
+          const y =
+            fromY +
+            dy * t +
+            lift * arc +
+            Math.cos(waves * 2 * Math.PI * t + phase) * amplitude * 0.22 * arc;
+          const scale =
+            index === points.length - 1
+              ? 0.72
+              : 1 + Math.sin(Math.PI * t) * 0.13;
+          return {
+            left: x + "px",
+            top: y + "px",
+            transform: `rotate(${route.spin * t}deg) scale(${scale})`,
+            offset: t,
+          };
+        });
+        const animation = element.animate(keyframes, {
+          duration: options.duration || route.duration + Math.random() * 180,
+          easing: "cubic-bezier(.2,.7,.25,1)",
+          fill: "forwards",
+        });
+        return animation.finished.catch(() => {});
+      }
+
+      function setupHeavyBall() {
+        const control = document.getElementById("heavyBall");
+        const option = document.getElementById("heavyBallOption");
+        if (!control || control.dataset.ready) return;
+        control.dataset.ready = "1";
+        if (option)
+          option.addEventListener("click", () => {
+            if (
+              !control.isConnected ||
+              control.parentElement !== document.body
+            ) {
+              const rect = control.getBoundingClientRect();
+              document.body.appendChild(control);
+              control.style.position = "fixed";
+              control.style.left = rect.left + "px";
+              control.style.top = rect.top + "px";
+              control.style.margin = "0";
+              control.style.zIndex = "1250";
+            }
+            control.classList.add("visible");
+            option.textContent = "🏐 HEAVY BALL READY! HOLD AND DROP";
+          });
+        let held = false;
+        let pointerId = null;
+        control.addEventListener("pointerdown", (event) => {
+          if (
+            heavyBallBusy ||
+            !document.body.classList.contains("snow-covered")
+          )
+            return;
+          event.preventDefault();
+          held = true;
+          pointerId = event.pointerId;
+          const rect = control.getBoundingClientRect();
+          control.style.position = "fixed";
+          control.style.left = rect.left + "px";
+          control.style.top = rect.top + "px";
+          control.style.margin = "0";
+          control.style.zIndex = "1250";
+          control.classList.add("held");
+          control.style.left = event.clientX - control.offsetWidth / 2 + "px";
+          control.style.top = event.clientY - control.offsetHeight / 2 + "px";
+          if (control.setPointerCapture) {
+            try {
+              control.setPointerCapture(event.pointerId);
+            } catch (_) {}
+          }
+        });
+        control.addEventListener("pointermove", (event) => {
+          if (!held || event.pointerId !== pointerId) return;
+          event.preventDefault();
+          control.style.left = event.clientX - control.offsetWidth / 2 + "px";
+          control.style.top = event.clientY - control.offsetHeight / 2 + "px";
+        });
+        control.addEventListener("pointercancel", () => {
+          held = false;
+          pointerId = null;
+          control.classList.remove("held");
+        });
+        window.addEventListener(
+          "pointerup",
+          (event) => {
+            if (!held || event.pointerId !== pointerId) return;
+            held = false;
+            pointerId = null;
+            control.classList.remove("held");
+            dropHeavyBall(control);
+          },
+          true,
+        );
+      }
+
+      function dropHeavyBall(control) {
+        if (heavyBallBusy || !document.body.classList.contains("snow-covered"))
+          return;
+        heavyBallBusy = true;
+        const startTop =
+          parseFloat(control.style.top) || control.getBoundingClientRect().top;
+        const viewportHeight = window.visualViewport
+          ? window.visualViewport.height
+          : window.innerHeight;
+        const endTop = Math.max(0, viewportHeight - control.offsetHeight);
+        const duration = Math.max(
+          900,
+          Math.min(1700, (endTop - startTop) * 1.35),
+        );
+        const animation = control.animate(
+          [
+            { top: startTop + "px", transform: "scale(1) rotate(0deg)" },
+            {
+              top:
+                Math.max(startTop, startTop + (endTop - startTop) * 0.72) +
+                "px",
+              transform: "scale(1.12) rotate(24deg)",
+              offset: 0.72,
+            },
+            { top: endTop + "px", transform: "scale(1.18,.88) rotate(360deg)" },
+          ],
+          { duration, easing: "cubic-bezier(.22,.62,.3,1)", fill: "forwards" },
+        );
+        animation.finished
+          .catch(() => {})
+          .then(() => {
+            animation.cancel();
+            control.style.top =
+              Math.max(
+                0,
+                (window.visualViewport
+                  ? window.visualViewport.height
+                  : window.innerHeight) - control.offsetHeight,
+              ) + "px";
+            control.style.transform = "";
+            heavyBallThrows += 1;
+            const counter = document.getElementById("heavyBallCount");
+            if (counter) counter.textContent = heavyBallThrows + " / 5 drops";
+            document.body.classList.remove("heavy-impact");
+            void document.body.offsetWidth;
+            document.body.classList.add("heavy-impact");
+            setTimeout(
+              () => document.body.classList.remove("heavy-impact"),
+              520,
+            );
+            if (navigator.vibrate) {
+              try {
+                navigator.vibrate([90, 45, 130]);
+              } catch (_) {}
+            }
+            createHeavySnowBurst();
+            heavyBallBusy = false;
+            if (heavyBallThrows >= 5)
+              setTimeout(() => clearSideSnow("ball"), 180);
+          });
+      }
+
+      function createHeavySnowBurst() {
+        for (let i = 0; i < 34; i++) {
+          const flake = document.createElement("i");
+          flake.className = "heavy-snow-particle";
+          flake.textContent = Math.random() > 0.5 ? "❄" : "✦";
+          flake.style.left = Math.random() * 100 + "vw";
+          flake.style.top = Math.random() * 100 + "vh";
+          flake.style.setProperty(
+            "--drift",
+            (Math.random() - 0.5) * 180 + "px",
+          );
+          document.body.appendChild(flake);
+          setTimeout(() => flake.remove(), 850);
+        }
+      }
+
+      function makeSnowball() {
+        if (snowballActive) return;
+        const pile = document.getElementById("topSnow");
+        const rect = pile.getBoundingClientRect();
+        const ball = document.createElement("button");
+        ball.type = "button";
+        ball.className = "snowball-projectile";
+        ball.textContent = "❄";
+        ball.setAttribute(
+          "aria-label",
+          "Drag and throw a snowball at the snowman",
+        );
+        ball.style.left = Math.max(8, rect.left + rect.width / 2 - 22) + "px";
+        ball.style.top = Math.max(8, rect.top - 44) + "px";
+        document.body.appendChild(ball);
+        snowballActive = true;
+        let downX = 0,
+          downY = 0,
+          pointerId = null;
+        ball.addEventListener("pointerdown", (e) => {
+          e.preventDefault();
+          downX = e.clientX;
+          downY = e.clientY;
+          pointerId = e.pointerId;
+          ball.setPointerCapture(e.pointerId);
+        });
+        ball.addEventListener("pointermove", (e) => {
+          if (pointerId !== e.pointerId || !ball.hasPointerCapture(e.pointerId))
+            return;
+          ball.style.left = e.clientX - 22 + "px";
+          ball.style.top = e.clientY - 22 + "px";
+        });
+        ball.addEventListener("pointerup", async (e) => {
+          if (pointerId !== e.pointerId) return;
+          pointerId = null;
+          const target = document
+            .getElementById("snowman")
+            .getBoundingClientRect();
+          const targetX = target.left + target.width * 0.48 - 22;
+          const targetY = target.top + target.height * 0.36 - 22;
+          const fromX = parseFloat(ball.style.left) || e.clientX - 22;
+          const fromY = parseFloat(ball.style.top) || e.clientY - 22;
+          ball.style.cursor = "default";
+          await animateCurvedSnowball(ball, fromX, fromY, targetX, targetY);
+          ball.remove();
+          snowballActive = false;
+          snowmanHits += 1;
+          snowmanGetsHit(targetX + 22, targetY + 22);
+          setTimeout(showSnowmanAndReturnSnowball, 430);
+        });
+        ball.addEventListener("pointercancel", () => {
+          pointerId = null;
+        });
+      }
+
+      function snowmanGetsHit(x, y) {
+        const snowman = document.getElementById("snowman");
+        const bubble = document.getElementById("snowmanBubble");
+        const rage = Math.min(5, Math.ceil(snowmanHits / 2));
+        if (snowmanHits >= 15) {
+          snowmanRespawning = true;
+          snowman.classList.remove(
+            "hit",
+            "throwing",
+            "rage-2",
+            "rage-3",
+            "rage-4",
+            "rage-5",
+          );
+          snowman.classList.add("exploding");
+          bubble.textContent = "NOOOOO! I'M MELTING INTO A SNOWSTORM!!! 💥☃️";
+          bubble.classList.add("show");
+          clearTimeout(snowmanBubbleTimer);
+          snowmanBubbleTimer = setTimeout(
+            () => bubble.classList.remove("show"),
+            1800,
+          );
+          createSnowSplash(x, y, true);
+          document.body.classList.add("snow-covered");
+          const hint = document.getElementById("snowballHint");
+          if (hint)
+            hint.textContent =
+              "THE SNOWMAN EXPLODED! SHAKE YOUR PHONE TO CLEAR THE SNOW! ❄️📱";
+          const status = document.getElementById("shakeStatus");
+          if (status)
+            status.textContent =
+              "❄️ The screen is buried in snow! Shake your phone to clear it and reveal the new snowman.";
+          setTimeout(() => {
+            snowman.classList.remove(
+              "exploding",
+              "hit",
+              "throwing",
+              "rage-2",
+              "rage-3",
+              "rage-4",
+              "rage-5",
+            );
+            snowman.textContent = "⛄";
+            snowmanHits = 0;
+            snowmanRespawning = false;
+          }, 1250);
+          return;
+        }
+        snowman.classList.remove(
+          "hit",
+          "throwing",
+          "rage-2",
+          "rage-3",
+          "rage-4",
+          "rage-5",
+        );
+        if (rage >= 2) snowman.classList.add("rage-" + rage);
+        snowman.textContent = "⛄";
+        void snowman.offsetWidth;
+        snowman.classList.add("hit");
+        const reactions = [
+          "Hey! Watch where you're throwing! 😳",
+          "HEY! That's twice! 😠",
+          "I'm getting VERY chilly and VERY angry! 😡",
+          "I'M NOT A TARGET! 😤",
+          "THAT'S IT! MEGA SNOWBALL CHAOS!!! 🤬🔥",
+        ];
+        bubble.textContent =
+          reactions[Math.min(reactions.length - 1, rage - 1)];
+        bubble.classList.add("show");
+        clearTimeout(snowmanBubbleTimer);
+        snowmanBubbleTimer = setTimeout(
+          () => bubble.classList.remove("show"),
+          2100,
+        );
+        const impact = document.createElement("div");
+        impact.className = "snow-impact";
+        impact.textContent = "💥❄️";
+        impact.style.left = x + "px";
+        impact.style.top = y + "px";
+        document.body.appendChild(impact);
+        setTimeout(() => impact.remove(), 700);
+        createSnowSplash(x, y);
+        const hint = document.getElementById("snowballHint");
+        if (hint)
+          hint.textContent =
+            snowmanHits >= 10
+              ? "MAXIMUM SNOWMAN RAGE!!! INCOMING MEGA SNOWBALL!!! 🤬🔥❄️"
+              : snowmanHits >= 8
+                ? "THE SNOWMAN IS LOSING IT! Duck for cover! 😤"
+                : snowmanHits >= 6
+                  ? "THE SNOWMAN IS FURIOUS! It's launching a mega snowball! 🤬❄️"
+                  : snowmanHits >= 4
+                    ? "The snowman is getting REALLY mad! Watch out! 😡"
+                    : snowmanHits >= 2
+                      ? "Another direct hit! The snowman is getting grumpy! 😠"
+                      : "Bullseye! You bonked the snowman! Watch out — it's throwing one back! ☃️";
+        setTimeout(() => snowman.classList.remove("hit"), 650);
+      }
+
+      async function showSnowmanAndReturnSnowball() {
+        if (snowmanRespawning) return;
+        const snowman = document.getElementById("snowman");
+        snowman.classList.remove("throwing");
+        void snowman.offsetWidth;
+        snowman.classList.add("throwing");
+        const manRect = snowman.getBoundingClientRect();
+        const startX = manRect.left + manRect.width * 0.36 - 36;
+        const startY = manRect.top + manRect.height * 0.34 - 36;
+        const returnSize = Math.min(
+          148,
+          76 + Math.max(0, snowmanHits - 1) * 10,
+        );
+        const x = Math.max(
+          12,
+          Math.min(
+            window.innerWidth - returnSize - 8,
+            window.innerWidth * 0.48 - returnSize / 2,
+          ),
+        );
+        const y = Math.max(
+          24,
+          Math.min(
+            window.innerHeight - returnSize - 8,
+            window.innerHeight * 0.48 - returnSize / 2,
+          ),
+        );
+        const returned = document.createElement("div");
+        returned.className = "snowball-projectile";
+        returned.setAttribute("aria-hidden", "true");
+        returned.textContent = "❄";
+        returned.style.width = returnSize + "px";
+        returned.style.height = returnSize + "px";
+        returned.style.fontSize = Math.round(returnSize * 0.53) + "px";
+        returned.style.left = startX + "px";
+        returned.style.top = startY + "px";
+        document.body.appendChild(returned);
+        await animateCurvedSnowball(returned, startX, startY, x, y, {
+          duration: 980,
+        });
+        returned.remove();
+        createSnowSplash(x + returnSize / 2, y + returnSize / 2);
+        const hint = document.getElementById("snowballHint");
+        if (hint)
+          hint.textContent =
+            snowmanHits >= 10
+              ? "ULTIMATE MEGA SNOWBALL!!! THE SNOWMAN HAS GONE FULL CHAOS! 🤬🔥"
+              : snowmanHits >= 8
+                ? "THE FURIOUS SNOWMAN FIRED A GIANT SNOWBALL! 😤❄️"
+                : snowmanHits >= 6
+                  ? "MEGA SNOWBALL ATTACK! The snowman has completely lost it! 🤬☃️"
+                  : snowmanHits >= 4
+                    ? "The furious snowman launched an EXTRA HUGE snowball back! 😡❄️"
+                    : "The snowman got bonked and launched a HUGE snowball back! Try another throw! ☃️❄️";
+        setTimeout(() => snowman.classList.remove("throwing"), 300);
+      }
+
+      function createSnowSplash(x, y, mega = false) {
+        const splat = document.createElement("div");
+        splat.className = "snow-splat";
+        splat.style.width = mega ? "min(78vw, 520px)" : "190px";
+        splat.style.height = mega ? "min(78vw, 520px)" : "190px";
+        splat.style.left = x + "px";
+        splat.style.top = y + "px";
+        document.body.appendChild(splat);
+        setTimeout(() => splat.remove(), 800);
+        for (let i = 0; i < (mega ? 90 : 22); i++) {
+          const flake = document.createElement("span");
+          flake.className = "snow-hit";
+          flake.textContent = i % 3 === 0 ? "❄" : "✦";
+          flake.style.left = x + "px";
+          flake.style.top = y + "px";
+          const burst = mega ? 620 : 250;
+          flake.style.setProperty("--dx", (Math.random() - 0.5) * burst + "px");
+          flake.style.setProperty(
+            "--dy",
+            (Math.random() - 0.5) * (mega ? 560 : 210) + "px",
+          );
+          document.body.appendChild(flake);
+          setTimeout(() => flake.remove(), 950);
+        }
+      }
+
+      function positionSnow() {
+        const activeScreen = document.querySelector(".screen.active");
+
+        const card = activeScreen ? activeScreen.querySelector(".card") : null;
+
+        if (!card) return;
+
+        const rect = card.getBoundingClientRect();
+
+        const topSnow = document.getElementById("topSnow");
+
+        const left = document.getElementById("leftSnow");
+
+        const right = document.getElementById("rightSnow");
+
+        const pileHeight =
+          topSnowLevel > 0 ? 8 + Math.min(topSnowLevel * 0.34, 34) : 0;
+
+        const snowWidth = Math.max(
+          0,
+          Math.min(window.innerWidth, rect.width + 6),
+        );
+        const snowLeft = Math.max(
+          0,
+          Math.min(window.innerWidth - snowWidth, rect.left - 3),
+        );
+        topSnow.style.left = snowLeft + "px";
+        topSnow.style.width = snowWidth + "px";
+        topSnow.style.height = pileHeight + "px";
+        topSnow.style.opacity = topSnowLevel > 0 ? "1" : "0";
+        topSnow.style.top = Math.max(0, rect.top - pileHeight + 2) + "px";
+
+        left.style.left = Math.max(0, rect.left - 8) + "px";
+
+        right.style.left = "auto";
+
+        right.style.right =
+          Math.max(0, window.innerWidth - rect.right - 14) + "px";
+
+        left.style.top = rect.top + 8 + "px";
+
+        right.style.top = rect.top + 8 + "px";
+
+        left.style.height = sideSpillLevel + "px";
+
+        right.style.height = sideSpillLevel + "px";
+      }
+
+      function startSideSnow() {
+        clearInterval(snowInterval);
+
+        topSnowLevel = 0;
+        sideSpillLevel = 0;
+        positionSnow();
+        updateWorldSnow();
+
+        snowInterval = setInterval(() => {
+          const activeScreen = document.querySelector(".screen.active");
+
+          if (!activeScreen) return;
+
+          topSnowLevel = Math.min(topSnowLevel + 1, 100);
+          signSnowLevel = Math.min(signSnowLevel + 0.65, 70);
+          roofSnowLevel = Math.min(roofSnowLevel + 0.7, 70);
+          updateWorldSnow();
+
+          sideSpillLevel = Math.min(sideSpillLevel + 0.25, 34);
+          positionSnow();
+        }, 700);
+      }
+
+      function updateWorldSnow() {
+        document.querySelectorAll(".sign-snow-cap").forEach((cap) => {
+          cap.style.setProperty(
+            "--sign-snow-height",
+            (signSnowLevel > 0 ? 5 + Math.min(signSnowLevel * 0.42, 27) : 0) +
+              "px",
+          );
+          cap.style.opacity = signSnowLevel > 0 ? "1" : "0";
+        });
+        const roofCap = document.querySelector(".roof-snow-cap");
+        if (roofCap) {
+          roofCap.style.setProperty(
+            "--roof-snow-height",
+            (roofSnowLevel > 0 ? 5 + Math.min(roofSnowLevel * 0.48, 29) : 0) +
+              "px",
+          );
+          roofCap.style.opacity = roofSnowLevel > 0 ? "1" : "0";
+        }
+      }
+
+      function setupPileClearing() {
+        const toggle = document.getElementById("pileClearToggle");
+        const ball = document.getElementById("pileClearBall");
+        if (!toggle || !ball || ball.dataset.ready) return;
+        ball.dataset.ready = "1";
+        let dragging = false;
+        let pointer = null;
+        let lastX = 0;
+        let lastY = 0;
+        let falling = false;
+        const moveBall = (x, y) => {
+          lastX = x;
+          lastY = y;
+          const width = ball.offsetWidth || 76;
+          const height = ball.offsetHeight || 76;
+          ball.style.left =
+            Math.max(
+              2,
+              Math.min(window.innerWidth - width - 2, x - width / 2),
+            ) + "px";
+          ball.style.top =
+            Math.max(
+              2,
+              Math.min(window.innerHeight - height - 2, y - height / 2),
+            ) + "px";
+          ball.style.right = "auto";
+          ball.style.bottom = "auto";
+        };
+        toggle.addEventListener("click", () => {
+          if (ball.classList.contains("active")) {
+            if (falling || dragging) return;
+            ball.classList.remove("active", "held");
+            ball.style.display = "none";
+            ball.style.pointerEvents = "auto";
+            ball.style.left = "";
+            ball.style.top = "";
+            ball.style.right = "";
+            ball.style.bottom = "";
+            ball.style.transform = "";
+            ball.dataset.positioned = "";
+            toggle.textContent = "🏐 Clear snow";
+            return;
+          }
+          ball.classList.add("active");
+          ball.style.display = "grid";
+          if (!ball.dataset.positioned) {
+            ball.style.left =
+              Math.max(12, Math.min(24, window.innerWidth * 0.04)) + "px";
+            ball.style.top = "auto";
+            ball.style.bottom = "calc(62px + env(safe-area-inset-bottom, 0px))";
+          }
+          toggle.textContent = "✕ Remove ball";
+        });
+        ball.addEventListener("pointerdown", (event) => {
+          if (falling) return;
+          event.preventDefault();
+          dragging = true;
+          pointer = event.pointerId;
+          ball.dataset.positioned = "1";
+          ball.classList.add("held");
+          moveBall(event.clientX, event.clientY);
+          if (ball.setPointerCapture) {
+            try {
+              ball.setPointerCapture(pointer);
+            } catch (_) {}
+          }
+        });
+        ball.addEventListener("pointermove", (event) => {
+          if (!dragging || event.pointerId !== pointer) return;
+          event.preventDefault();
+          moveBall(event.clientX, event.clientY);
+        });
+        const finish = (event) => {
+          if (
+            !dragging ||
+            (event.pointerId !== undefined && event.pointerId !== pointer)
+          )
+            return;
+          dragging = false;
+          pointer = null;
+          ball.classList.remove("held");
+          const x = Number.isFinite(event.clientX) ? event.clientX : lastX;
+          const y = Number.isFinite(event.clientY) ? event.clientY : lastY;
+          moveBall(x, y);
+          const startTop =
+            parseFloat(ball.style.top) ||
+            Math.max(0, y - ball.offsetHeight / 2);
+          const viewportHeight = window.visualViewport
+            ? window.visualViewport.height
+            : window.innerHeight;
+          const endTop = Math.max(0, viewportHeight - ball.offsetHeight);
+          const fallDistance = Math.max(0, endTop - startTop);
+          falling = true;
+          ball.style.pointerEvents = "none";
+          const animation = ball.animate(
+            [
+              { top: startTop + "px", transform: "scale(1.04) rotate(-10deg)" },
+              {
+                top: startTop + fallDistance * 0.72 + "px",
+                transform: "scale(1.08,.94) rotate(190deg)",
+                offset: 0.72,
+              },
+              {
+                top: endTop + "px",
+                transform: "scale(1.28,.72) rotate(360deg)",
+                offset: 0.9,
+              },
+              {
+                top: endTop + "px",
+                transform: "scale(.94,1.08) rotate(390deg)",
+              },
+            ],
+            {
+              duration: Math.max(900, Math.min(1800, fallDistance * 1.5)),
+              easing: "cubic-bezier(.22,.62,.3,1)",
+              fill: "forwards",
+            },
+          );
+          animation.finished
+            .catch(() => {})
+            .then(() => {
+              animation.cancel();
+              ball.style.top = endTop + "px";
+              ball.style.transform = "";
+              ball.style.pointerEvents = "auto";
+              falling = false;
+              topSnowLevel = 0;
+              sideSpillLevel = 0;
+              signSnowLevel = 0;
+              roofSnowLevel = 0;
+              const topSnow = document.getElementById("topSnow");
+              if (topSnow) {
+                topSnow.style.opacity = "0";
+                topSnow.style.transform = "translateY(-24px) scaleX(.75)";
+              }
+              document
+                .querySelectorAll(".sign-snow-cap, .roof-snow-cap")
+                .forEach((cap) => {
+                  cap.style.opacity = "0";
+                });
+              updateWorldSnow();
+              document.body.classList.remove("heavy-impact");
+              void document.body.offsetWidth;
+              document.body.classList.add("heavy-impact");
+              setTimeout(
+                () => document.body.classList.remove("heavy-impact"),
+                520,
+              );
+              createHeavySnowBurst();
+              if (navigator.vibrate) {
+                try {
+                  navigator.vibrate([75, 35, 110]);
+                } catch (_) {}
+              }
+              toggle.textContent = "✕ Remove ball";
+              setTimeout(() => {
+                topSnowLevel = Math.max(topSnowLevel, 18);
+                signSnowLevel = Math.max(signSnowLevel, 12);
+                roofSnowLevel = Math.max(roofSnowLevel, 14);
+                updateWorldSnow();
+                positionSnow();
+                if (topSnow) {
+                  topSnow.style.opacity = "1";
+                  topSnow.style.transform = "translateY(0) scaleX(1)";
+                }
+                if (ball.classList.contains("active"))
+                  toggle.textContent = "✕ Remove ball";
+              }, 900);
+            });
+        };
+        ball.addEventListener("pointerup", finish);
+        ball.addEventListener("pointercancel", finish);
+        window.addEventListener("pointerup", finish, true);
+        window.addEventListener("pointercancel", finish, true);
+      }
+
+      function enableShake(fromButton = false) {
+        const status = document.getElementById("shakeStatus");
+        const enableButton = document.getElementById("enableShakeButton");
+        const stormButton = document.getElementById("stormEnableShakeButton");
+
+        if (shakeEnabled && shakeListenerAttached) {
+          if (enableButton) enableButton.style.display = "none";
+          if (stormButton) stormButton.style.display = "none";
+          if (status && document.body.classList.contains("snow-covered"))
+            status.textContent = "❄️ Shake your phone firmly a few times to clear the snow!";
+          return;
+        }
+
+        if (typeof DeviceMotionEvent === "undefined") {
+          if (status) status.textContent = "📱 This browser does not provide motion sensors. Use the super duper heavy ball to clear the snow.";
+          if (enableButton) enableButton.style.display = "none";
+          if (stormButton) stormButton.style.display = "none";
+          return;
+        }
+
+        const attachMotionListener = () => {
+          if (!shakeListenerAttached) {
+            window.addEventListener("devicemotion", detectShake, { passive: true });
+            shakeListenerAttached = true;
+          }
+          shakeEnabled = true;
+          motionPermissionRequested = true;
+          lastAcceleration = null;
+          shakeSamples = 0;
+          shakeImpulseTimes = [];
+          if (status) status.textContent = document.body.classList.contains("snow-covered")
+            ? "❄️ Motion access is on! Shake your phone firmly a few times to clear the snow."
+            : "❄️ Phone shaking is ready! Shake firmly when the snowstorm appears.";
+          if (enableButton) enableButton.style.display = "none";
+          if (stormButton) stormButton.style.display = "none";
+        };
+
+        if (typeof DeviceMotionEvent.requestPermission === "function") {
+          if (!fromButton && motionPermissionRequested) return;
+          motionPermissionRequested = true;
+          let permissionRequest;
+          try {
+            permissionRequest = DeviceMotionEvent.requestPermission();
+          } catch (error) {
+            motionPermissionRequested = false;
+            if (status) status.textContent = "📱 Tap ENABLE SHAKE and allow Motion & Orientation Access in your browser.";
+            if (enableButton) enableButton.style.display = "inline-flex";
+            return;
+          }
+          Promise.resolve(permissionRequest).then((permission) => {
+            if (permission === "granted") {
+              attachMotionListener();
+            } else {
+              motionPermissionRequested = false;
+              if (status) status.textContent = "📱 Motion access is blocked. Tap ENABLE SHAKE and choose Allow, or use the heavy ball.";
+              if (enableButton) enableButton.style.display = "inline-flex";
+              if (stormButton) stormButton.style.removeProperty("display");
+            }
+          }).catch(() => {
+            motionPermissionRequested = false;
+            if (status) status.textContent = "📱 Motion access was blocked. Open this page in Safari or Chrome over HTTPS, then tap ENABLE SHAKE.";
+            if (enableButton) enableButton.style.display = "inline-flex";
+            if (stormButton) stormButton.style.removeProperty("display");
+          });
+        } else {
+          if (!window.isSecureContext) {
+            if (status) status.textContent = "⚠️ Phone shaking needs a secure HTTPS page. Open the published HTTPS link, then tap ENABLE SHAKE.";
+            if (enableButton) enableButton.style.display = "inline-flex";
+            if (stormButton) stormButton.style.removeProperty("display");
+            return;
+          }
+          attachMotionListener();
+        }
+      }
+
+      function detectShake(event) {
+        if (!document.body.classList.contains("snow-covered")) return;
+        const now = Date.now();
+        if (now - lastMotionEventAt < 35) return;
+        lastMotionEventAt = now;
+
+        const hasLinear = event.acceleration &&
+          [event.acceleration.x, event.acceleration.y, event.acceleration.z].some((value) => Number.isFinite(value));
+        const acceleration = hasLinear ? event.acceleration : event.accelerationIncludingGravity;
+        if (!acceleration) return;
+
+        const x = Number(acceleration.x) || 0;
+        const y = Number(acceleration.y) || 0;
+        const z = Number(acceleration.z) || 0;
+        const current = { x, y, z };
+        if (!lastAcceleration) {
+          lastAcceleration = current;
+          return;
+        }
+
+        const dx = x - lastAcceleration.x;
+        const dy = y - lastAcceleration.y;
+        const dz = z - lastAcceleration.z;
+        const change = Math.sqrt(dx * dx + dy * dy + dz * dz);
+        lastAcceleration = current;
+        shakeSamples += 1;
+
+        const threshold = hasLinear ? 7.5 : 10;
+        if (change > threshold) {
+          shakeImpulseTimes.push(now);
+          shakeImpulseTimes = shakeImpulseTimes.filter((time) => now - time < 1900);
+        }
+
+        if (shakeImpulseTimes.length >= 3 && now - lastShake > 900) {
+          lastShake = now;
+          shakeImpulseTimes = [];
+          clearSideSnow("shake");
+        }
+      }
+
+      function clearSideSnow(method) {
+        if (
+          document.body.classList.contains("snow-covered") &&
+          method !== "shake" &&
+          heavyBallThrows < 5
+        )
+          return;
+        document.body.classList.remove("snow-covered");
+        shakeImpulseTimes = [];
+        lastAcceleration = null;
+        heavyBallBusy = false;
+        heavyBallThrows = 0;
+        const resetCounter = document.getElementById("heavyBallCount");
+        if (resetCounter) resetCounter.textContent = "0 / 5 drops";
+        const heavyControl = document.getElementById("heavyBall");
+        if (heavyControl) {
+          heavyControl.classList.remove("held", "visible");
+          heavyControl.style.transform = "";
+          heavyControl.style.position = "relative";
+          heavyControl.style.left = "";
+          heavyControl.style.top = "";
+          heavyControl.style.margin = "12px auto 8px";
+          heavyControl.style.zIndex = "3";
+        }
+        const heavyOption = document.getElementById("heavyBallOption");
+        if (heavyOption)
+          heavyOption.textContent = "🏐 USE THE SUPER DUPER HEAVY BALL";
+        const cover = document.getElementById("snowCover");
+        if (cover) cover.removeAttribute("style");
+        const hintAfterShake = document.getElementById("snowballHint");
+        if (hintAfterShake && snowmanHits === 0)
+          hintAfterShake.textContent =
+            "A NEW SNOWMAN APPEARED! Can you hit it 15 more times? 😈❄️";
+        const statusAfterShake = document.getElementById("shakeStatus");
+        if (statusAfterShake)
+          statusAfterShake.textContent =
+            "Yay! The snow is cleared! Keep playing — the snow will pile up again.";
+
+        const left = document.getElementById("leftSnow");
+
+        const right = document.getElementById("rightSnow");
+
+        const topSnow = document.getElementById("topSnow");
+
+        createSideSnowBurst();
+
+        [left, right].forEach((edge) => edge.classList.add("falling"));
+
+        topSnow.style.opacity = "0";
+
+        topSnow.style.transform = "translateY(-35px) scaleX(0.7)";
+
+        setTimeout(() => {
+          topSnowLevel = 0;
+
+          sideSpillLevel = 0;
+          signSnowLevel = 0;
+          roofSnowLevel = 0;
+          updateWorldSnow();
+
+          left.classList.remove("falling");
+
+          right.classList.remove("falling");
+
+          topSnow.style.opacity = "1";
+
+          topSnow.style.transform = "translateY(0) scaleX(1)";
+
+          positionSnow();
+        }, 850);
+
+        document.getElementById("shakeStatus").textContent =
+          "Yay! All the snow is cleared! ❄️ Watch it pile up again!";
+      }
+
+      function createSideSnowBurst() {
+        for (let i = 0; i < 50; i++) {
+          const particle = document.createElement("div");
+
+          particle.className = "snow-burst";
+
+          const side = Math.random() > 0.5 ? 0 : window.innerWidth;
+
+          particle.style.left = side + "px";
+
+          particle.style.top = Math.random() * window.innerHeight + "px";
+
+          particle.style.setProperty(
+            "--dx",
+
+            (Math.random() - 0.5) * 250 + "px",
+          );
+
+          particle.style.setProperty(
+            "--dy",
+
+            (Math.random() - 0.5) * 250 + "px",
+          );
+
+          document.body.appendChild(particle);
+
+          setTimeout(() => particle.remove(), 900);
+        }
+      }
+
+      setupHeavyBall();
+      setupPileClearing();
+      window.addEventListener("resize", positionSnow);
+
+      window.addEventListener("scroll", positionSnow, { passive: true });
+
+      const letters = [
+        {
+          title: "Merry Christmas, Baby ❤️",
+
+          text: `
+
+I made this little surprise just for you because I wanted to give you something that feels special and comes straight from my heart.
+
+
+
+I hope every little part of this gift makes you smile. You deserve to feel appreciated, cared for, and loved not just during Christmas, but every day.
+
+
+
+Thank you for being someone who makes ordinary moments feel meaningful.
+
+
+
+I am so happy to have you in my life.`,
+        },
+
+        {
+          title: "You Make Life Brighter ✨",
+
+          text: `
+I hope you know how much happiness you bring into my days.
+
+
+
+Your smile, your laughter, and the little things that make you who you are mean more to me than I can explain.
+
+
+
+Even the simplest conversations and quiet moments become memories I want to keep.
+
+
+
+I may not always find the perfect words, but I hope my actions remind you that you matter so much to me.
+
+
+
+You are one of my favorite parts of life. ❤️`,
+        },
+
+        {
+          title: "A Little Christmas Wish 🎄",
+
+          text: `
+My Christmas wish is simple, I hope we keep making beautiful memories together.
+
+
+
+I hope we continue learning, growing, understanding each other, and choosing kindness even on difficult days.
+
+
+
+I want to celebrate the little wins with you, laugh with you over silly things, and be someone you can talk to whenever you need.
+
+
+
+May this season bring you peace, warmth, and countless reasons to smile.
+
+
+
+And may we have many more Christmas memories to look forward to.`,
+        },
+
+        {
+          title: "With Love, Always ❤️",
+
+          text: `To my lovely 
+Thank you for being you.
+
+
+
+Thank you for the happiness, the laughter, and the memories we have shared. I appreciate you more than these few pages could ever say.
+
+
+
+I hope you never forget how special you are and how much good you deserve.
+
+
+
+Wherever life takes us, I hope we keep supporting each other and finding reasons to smile.
+
+
+
+Merry Christmas, Jershey. I hope this little surprise reminds you that you are appreciated and loved.
+
+
+
+With all my love,
+
+
+
+Lyan ❤️`,
+        },
+      ];
+
+      function addTreeCelebrationLights() {
+        const board = document.getElementById("gameBoard");
+        if (!board || board.querySelector(".tree-celebration-lights")) return;
+        const svgNS = "http://www.w3.org/2000/svg";
+        const svg = document.createElementNS(svgNS, "svg");
+        svg.setAttribute("class", "tree-celebration-lights");
+        svg.setAttribute("viewBox", "0 0 340 390");
+        svg.setAttribute("preserveAspectRatio", "none");
+        const wire = document.createElementNS(svgNS, "path");
+        wire.setAttribute(
+          "d",
+          "M170 22 C118 54 220 72 132 105 S218 145 105 184 S225 224 78 270 S220 316 170 365",
+        );
+        svg.appendChild(wire);
+        const colors = ["#ff5555", "#ffd34e", "#4ee58a", "#55baff", "#ff8ad8"];
+        const bulbs = [
+          [170, 25],
+          [145, 47],
+          [193, 62],
+          [132, 91],
+          [207, 108],
+          [151, 132],
+          [190, 151],
+          [111, 179],
+          [225, 194],
+          [139, 218],
+          [184, 238],
+          [91, 267],
+          [211, 286],
+          [151, 312],
+          [179, 340],
+          [170, 365],
+        ];
+        bulbs.forEach(([x, y], i) => {
+          const bulb = document.createElementNS(svgNS, "circle");
+          bulb.setAttribute("cx", x);
+          bulb.setAttribute("cy", y);
+          bulb.setAttribute("r", i % 3 === 0 ? "6" : "5");
+          bulb.setAttribute("fill", colors[i % colors.length]);
+          bulb.setAttribute("color", colors[i % colors.length]);
+          bulb.style.animationDelay = (i % 5) * 0.13 + "s";
+          svg.appendChild(bulb);
+        });
+        board.appendChild(svg);
+      }
+
+      function showEnvelopeGift() {
+        const intro = document.getElementById("envelopeIntro");
+
+        const envelope = document.getElementById("giftEnvelope");
+
+        envelope.classList.remove("opening");
+
+        intro.classList.add("show");
+      }
+
+      function openEnvelopeLetter() {
+        const intro = document.getElementById("envelopeIntro");
+
+        const envelope = document.getElementById("giftEnvelope");
+
+        if (envelope.classList.contains("opening")) return;
+
+        envelope.classList.add("opening");
+
+        setTimeout(() => {
+          page = 0;
+
+          showScreen("letterScreen");
+
+          const card = document.getElementById("letterCard");
+
+          card.classList.remove("letter-visible", "page-in", "page-out");
+
+          renderLetter();
+
+          requestAnimationFrame(() => card.classList.add("letter-visible"));
+
+          intro.classList.remove("show");
+
+          envelope.classList.remove("opening");
+        }, 1750);
+      }
+
+      document
+
+        .getElementById("giftEnvelope")
+
+        .addEventListener("click", openEnvelopeLetter);
+
+      function renderLetter() {
+        document.getElementById("letterTitle").textContent =
+          letters[page].title;
+
+        document.getElementById("letterText").textContent = letters[page].text;
+
+        document.getElementById("pageNumber").textContent =
+          "Page " + (page + 1) + " of " + letters.length;
+
+        document.getElementById("previousButton").disabled = page === 0;
+
+        document.getElementById("nextButton").textContent =
+          page === letters.length - 1 ? "Finish ❤️" : "Next →";
+      }
+
+      function toggleChristmasAmbience() {
+        const isTurningOff = !document.body.classList.contains("christmas-ambience-off");
+        document.body.classList.toggle("christmas-ambience-off", isTurningOff);
+        const button = document.getElementById("christmasAmbienceToggle");
+        if (button) {
+          button.setAttribute("aria-pressed", String(isTurningOff));
+          button.textContent = isTurningOff
+            ? "🌟 Turn Christmas Lights On"
+            : "✨ Turn Christmas Lights Off";
+        }
+      }
+
+      function showCompletedTreeOnFinalPage() {
+        const sourceBoard = document.getElementById("gameBoard");
+        const display = document.getElementById("finalTreeDisplay");
+        if (!sourceBoard || !display) return;
+
+        display.innerHTML = "";
+        const treeCopy = sourceBoard.cloneNode(true);
+        treeCopy.id = "finalTreeBoard";
+        treeCopy.querySelectorAll(".piece").forEach((piece) => piece.remove());
+        treeCopy.querySelectorAll(".slot").forEach((slot) => {
+          slot.style.pointerEvents = "none";
+        });
+        const originalLights = treeCopy.querySelector(
+          ".tree-celebration-lights",
+        );
+        if (!originalLights) {
+          const svgNS = "http://www.w3.org/2000/svg";
+          const svg = document.createElementNS(svgNS, "svg");
+          svg.setAttribute("class", "tree-celebration-lights");
+          svg.setAttribute("viewBox", "0 0 340 390");
+          svg.setAttribute("preserveAspectRatio", "none");
+          const wire = document.createElementNS(svgNS, "path");
+          wire.setAttribute(
+            "d",
+            "M170 22 C118 54 220 72 132 105 S218 145 105 184 S225 224 78 270 S220 316 170 365",
+          );
+          svg.appendChild(wire);
+          const colors = [
+            "#ff5555",
+            "#ffd34e",
+            "#4ee58a",
+            "#55baff",
+            "#ff8ad8",
+          ];
+          const bulbs = [
+            [170, 25],
+            [145, 47],
+            [193, 62],
+            [132, 91],
+            [207, 108],
+            [151, 132],
+            [190, 151],
+            [111, 179],
+            [225, 194],
+            [139, 218],
+            [184, 238],
+            [91, 267],
+            [211, 286],
+            [151, 312],
+            [179, 340],
+            [170, 365],
+          ];
+          bulbs.forEach(([x, y], i) => {
+            const bulb = document.createElementNS(svgNS, "circle");
+            bulb.setAttribute("cx", x);
+            bulb.setAttribute("cy", y);
+            bulb.setAttribute("r", i % 3 === 0 ? "6" : "5");
+            bulb.setAttribute("fill", colors[i % colors.length]);
+            bulb.style.animationDelay = (i % 5) * 0.13 + "s";
+            svg.appendChild(bulb);
+          });
+          treeCopy.appendChild(svg);
+        }
+        display.appendChild(treeCopy);
+      }
+
+      function changePage(direction) {
+        const nextPage = page + direction;
+
+        if (nextPage >= letters.length) {
+          showCompletedTreeOnFinalPage();
+          showScreen("finalScreen");
+
+          return;
+        }
+
+        if (nextPage < 0 || nextPage === page) return;
+
+        const card = document.getElementById("letterCard");
+
+        card.classList.remove("page-in");
+
+        card.classList.add("page-out");
+
+        setTimeout(() => {
+          page = nextPage;
+
+          renderLetter();
+
+          card.classList.remove("page-out");
+
+          card.classList.add("page-in");
+        }, 210);
+      }
+
+      function restart() {
+        document.body.classList.remove(
+          "christmas-night",
+
+          "christmas-transition",
+        );
+
+        document.getElementById("envelopeIntro").classList.remove("show");
+        document
+          .querySelectorAll(".tree-celebration-lights")
+          .forEach((el) => el.remove());
+
+        document.getElementById("giftEnvelope").classList.remove("opening");
+        const snowman = document.getElementById("snowman");
+        snowman.classList.remove(
+          "throwing",
+          "hit",
+          "rage-2",
+          "rage-3",
+          "rage-4",
+          "rage-5",
+        );
+        snowman.textContent = "⛄";
+        snowmanHits = 0;
+        snowmanRespawning = false;
+        const bubble = document.getElementById("snowmanBubble");
+        bubble.classList.remove("show");
+        bubble.textContent = "";
+        clearTimeout(snowmanBubbleTimer);
+        document
+          .querySelectorAll(".snowball-projectile, .snow-hit, .snow-splat")
+          .forEach((el) => el.remove());
+        snowballActive = false;
+
+        showScreen("welcome");
+
+        positionSnow();
+      }
+
+      startSideSnow();
+
+      const snowCardObserver = new ResizeObserver(() => positionSnow());
+
+      document
+
+        .querySelectorAll(".screen .card")
+
+        .forEach((card) => snowCardObserver.observe(card));
+
+      setupHeavyBall();
+      setupPileClearing();
+      window.addEventListener("resize", positionSnow);
+
+      window.addEventListener("scroll", positionSnow, { passive: true });
+    </script>
+  </body>
+</html>
