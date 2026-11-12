@@ -55,6 +55,37 @@
         border: 0;
       }
 
+      .music-toggle {
+        position: fixed;
+        right: max(14px, env(safe-area-inset-right));
+        bottom: max(14px, env(safe-area-inset-bottom));
+        z-index: 1200;
+        padding: 10px 15px;
+        border-radius: 24px;
+        color: #fff8e9;
+        background: rgba(31, 67, 55, 0.94);
+        border: 1px solid rgba(255, 225, 170, 0.65);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.28);
+        font-size: 13px;
+        font-weight: 800;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .music-toggle:active {
+        transform: scale(0.96);
+      }
+      .music-toggle.paused {
+        background: rgba(75, 66, 58, 0.94);
+      }
+      @media (max-width: 480px) {
+        .music-toggle {
+          right: max(10px, env(safe-area-inset-right));
+          bottom: max(10px, env(safe-area-inset-bottom));
+          padding: 9px 12px;
+          font-size: 12px;
+        }
+      }
+
       .snowflake {
         position: fixed;
 
@@ -994,7 +1025,12 @@
         transform: scale(0.97);
       }
       body.christmas-ambience-off {
-        background: radial-gradient(ellipse at 50% 65%, #182331 0%, #080d16 68%, #03060b 100%) !important;
+        background: radial-gradient(
+          ellipse at 50% 65%,
+          #182331 0%,
+          #080d16 68%,
+          #03060b 100%
+        ) !important;
         color: #f7ead5;
       }
       body.christmas-ambience-off #christmasLights {
@@ -1009,9 +1045,15 @@
         background: transparent;
       }
       body.christmas-ambience-off #finalScreen .final-message-card {
-        background: linear-gradient(145deg, rgba(15, 22, 32, 0.97), rgba(7, 12, 20, 0.98)) !important;
+        background: linear-gradient(
+          145deg,
+          rgba(15, 22, 32, 0.97),
+          rgba(7, 12, 20, 0.98)
+        ) !important;
         border-color: rgba(255, 220, 160, 0.2) !important;
-        box-shadow: 0 0 45px rgba(0, 0, 0, 0.75), 0 18px 55px rgba(0, 0, 0, 0.6) !important;
+        box-shadow:
+          0 0 45px rgba(0, 0, 0, 0.75),
+          0 18px 55px rgba(0, 0, 0, 0.6) !important;
       }
       body.christmas-ambience-off #finalScreen .message-content h1,
       body.christmas-ambience-off #finalScreen .message-content p {
@@ -1020,7 +1062,7 @@
       body.christmas-ambience-off .christmas-ambience-toggle {
         background: linear-gradient(135deg, #76512c, #493018);
       }
-      
+
       body.christmas-ambience-off #finalTreeDisplay {
         background: #02040a !important;
         box-shadow: none !important;
@@ -1044,7 +1086,10 @@
         visibility: visible !important;
         filter: drop-shadow(0 0 2px rgba(255, 220, 120, 0.32));
       }
-      body.christmas-ambience-off #finalTreeBoard .tree-celebration-lights path {
+      body.christmas-ambience-off
+        #finalTreeBoard
+        .tree-celebration-lights
+        path {
         stroke: rgba(255, 221, 145, 0.9) !important;
         filter: drop-shadow(0 0 3px rgba(255, 210, 115, 0.75));
       }
@@ -3000,7 +3045,6 @@
         }
       }
 
-      
       #letterCard.message-card {
         background: linear-gradient(
           135deg,
@@ -3113,7 +3157,6 @@
         }
       }
 
-      
       #letterCard.message-card {
         width: min(88vw, 560px) !important;
         max-width: 560px !important;
@@ -3133,7 +3176,6 @@
         }
       }
 
-      
       .tree-celebration-lights {
         position: absolute;
         inset: 4% 8% 5%;
@@ -3228,7 +3270,6 @@
         }
       }
 
-
       html {
         min-width: 320px;
         -webkit-text-size-adjust: 100%;
@@ -3263,7 +3304,10 @@
         width: 100%;
         min-height: 100vh;
         min-height: 100svh;
-        padding: max(14px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(14px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+        padding: max(14px, env(safe-area-inset-top))
+          max(12px, env(safe-area-inset-right))
+          max(14px, env(safe-area-inset-bottom))
+          max(12px, env(safe-area-inset-left));
       }
 
       .card {
@@ -3431,6 +3475,19 @@
   </head>
 
   <body>
+    <audio id="backgroundMusic" loop preload="auto" playsinline>
+      <source src="All I Want For Christmas Is You.mp3" type="audio/mpeg" />
+    </audio>
+    <button
+      id="musicToggle"
+      class="music-toggle"
+      type="button"
+      aria-label="Pause background music"
+      aria-pressed="true"
+      onclick="toggleBackgroundMusic()"
+    >
+      🎵 Music: On
+    </button>
     <div id="winterRoadScene" aria-hidden="true">
       <div class="road-haze"></div>
       <div class="winter-road">
@@ -3473,7 +3530,8 @@
           class="shake-button storm-shake-button"
           type="button"
           onclick="enableShake(true)"
-        >📱 ENABLE SHAKE TO CLEAR SNOW</button
+        >
+          📱 ENABLE SHAKE TO CLEAR SNOW</button
         ><button id="heavyBallOption" type="button">
           🏐 USE THE SUPER DUPER HEAVY BALL</button
         ><button
@@ -3565,10 +3623,15 @@
         <div id="gameBoard"></div>
 
         <p id="shakeStatus">
-          ❄️ Shake your phone to clear the snow. If your phone asks, allow motion
-          access.
+          ❄️ Shake your phone to clear the snow. If your phone asks, allow
+          motion access.
         </p>
-        <button id="enableShakeButton" class="shake-button" type="button" onclick="enableShake(true)">
+        <button
+          id="enableShakeButton"
+          class="shake-button"
+          type="button"
+          onclick="enableShake(true)"
+        >
           📱 Enable phone shaking
         </button>
 
@@ -3689,7 +3752,9 @@
             type="button"
             aria-pressed="false"
             onclick="toggleChristmasAmbience()"
-          >✨ Turn Christmas Lights Off</button>
+          >
+            ✨ Turn Christmas Lights Off
+          </button>
           <div
             id="finalTreeDisplay"
             aria-label="The Christmas tree you built, decorated with glowing Christmas lights"
@@ -3861,13 +3926,63 @@
       let shakeImpulseTimes = [];
       let lastMotionEventAt = 0;
 
+      const backgroundMusic = document.getElementById("backgroundMusic");
+      const musicToggle = document.getElementById("musicToggle");
+
+      function startBackgroundMusic() {
+        if (!backgroundMusic) return;
+        backgroundMusic.volume = 0.42;
+        backgroundMusic.loop = true;
+        const playback = backgroundMusic.play();
+        if (playback && typeof playback.then === "function") {
+          playback
+            .then(() => {
+              if (musicToggle) {
+                musicToggle.textContent = "🎵 Music: On";
+                musicToggle.classList.remove("paused");
+                musicToggle.setAttribute(
+                  "aria-label",
+                  "Pause background music",
+                );
+                musicToggle.setAttribute("aria-pressed", "true");
+              }
+            })
+            .catch(() => {
+              if (musicToggle) {
+                musicToggle.textContent = "▶ Play Music";
+                musicToggle.classList.add("paused");
+                musicToggle.setAttribute("aria-label", "Play background music");
+                musicToggle.setAttribute("aria-pressed", "false");
+              }
+            });
+        }
+      }
+
+      function toggleBackgroundMusic() {
+        if (!backgroundMusic) return;
+        if (backgroundMusic.paused) {
+          startBackgroundMusic();
+        } else {
+          backgroundMusic.pause();
+          if (musicToggle) {
+            musicToggle.textContent = "▶ Music: Off";
+            musicToggle.classList.add("paused");
+            musicToggle.setAttribute("aria-label", "Play background music");
+            musicToggle.setAttribute("aria-pressed", "false");
+          }
+        }
+      }
+
       function startGame() {
+        startBackgroundMusic();
         document.body.classList.remove(
           "christmas-night",
           "christmas-transition",
           "christmas-ambience-off",
         );
-        const ambienceButton = document.getElementById("christmasAmbienceToggle");
+        const ambienceButton = document.getElementById(
+          "christmasAmbienceToggle",
+        );
         if (ambienceButton) {
           ambienceButton.setAttribute("aria-pressed", "false");
           ambienceButton.textContent = "✨ Turn Christmas Lights Off";
@@ -4881,12 +4996,15 @@
           if (enableButton) enableButton.style.display = "none";
           if (stormButton) stormButton.style.display = "none";
           if (status && document.body.classList.contains("snow-covered"))
-            status.textContent = "❄️ Shake your phone firmly a few times to clear the snow!";
+            status.textContent =
+              "❄️ Shake your phone firmly a few times to clear the snow!";
           return;
         }
 
         if (typeof DeviceMotionEvent === "undefined") {
-          if (status) status.textContent = "📱 This browser does not provide motion sensors. Use the super duper heavy ball to clear the snow.";
+          if (status)
+            status.textContent =
+              "📱 This browser does not provide motion sensors. Use the super duper heavy ball to clear the snow.";
           if (enableButton) enableButton.style.display = "none";
           if (stormButton) stormButton.style.display = "none";
           return;
@@ -4894,7 +5012,9 @@
 
         const attachMotionListener = () => {
           if (!shakeListenerAttached) {
-            window.addEventListener("devicemotion", detectShake, { passive: true });
+            window.addEventListener("devicemotion", detectShake, {
+              passive: true,
+            });
             shakeListenerAttached = true;
           }
           shakeEnabled = true;
@@ -4902,9 +5022,12 @@
           lastAcceleration = null;
           shakeSamples = 0;
           shakeImpulseTimes = [];
-          if (status) status.textContent = document.body.classList.contains("snow-covered")
-            ? "❄️ Motion access is on! Shake your phone firmly a few times to clear the snow."
-            : "❄️ Phone shaking is ready! Shake firmly when the snowstorm appears.";
+          if (status)
+            status.textContent = document.body.classList.contains(
+              "snow-covered",
+            )
+              ? "❄️ Motion access is on! Shake your phone firmly a few times to clear the snow."
+              : "❄️ Phone shaking is ready! Shake firmly when the snowstorm appears.";
           if (enableButton) enableButton.style.display = "none";
           if (stormButton) stormButton.style.display = "none";
         };
@@ -4917,28 +5040,38 @@
             permissionRequest = DeviceMotionEvent.requestPermission();
           } catch (error) {
             motionPermissionRequested = false;
-            if (status) status.textContent = "📱 Tap ENABLE SHAKE and allow Motion & Orientation Access in your browser.";
+            if (status)
+              status.textContent =
+                "📱 Tap ENABLE SHAKE and allow Motion & Orientation Access in your browser.";
             if (enableButton) enableButton.style.display = "inline-flex";
             return;
           }
-          Promise.resolve(permissionRequest).then((permission) => {
-            if (permission === "granted") {
-              attachMotionListener();
-            } else {
+          Promise.resolve(permissionRequest)
+            .then((permission) => {
+              if (permission === "granted") {
+                attachMotionListener();
+              } else {
+                motionPermissionRequested = false;
+                if (status)
+                  status.textContent =
+                    "📱 Motion access is blocked. Tap ENABLE SHAKE and choose Allow, or use the heavy ball.";
+                if (enableButton) enableButton.style.display = "inline-flex";
+                if (stormButton) stormButton.style.removeProperty("display");
+              }
+            })
+            .catch(() => {
               motionPermissionRequested = false;
-              if (status) status.textContent = "📱 Motion access is blocked. Tap ENABLE SHAKE and choose Allow, or use the heavy ball.";
+              if (status)
+                status.textContent =
+                  "📱 Motion access was blocked. Open this page in Safari or Chrome over HTTPS, then tap ENABLE SHAKE.";
               if (enableButton) enableButton.style.display = "inline-flex";
               if (stormButton) stormButton.style.removeProperty("display");
-            }
-          }).catch(() => {
-            motionPermissionRequested = false;
-            if (status) status.textContent = "📱 Motion access was blocked. Open this page in Safari or Chrome over HTTPS, then tap ENABLE SHAKE.";
-            if (enableButton) enableButton.style.display = "inline-flex";
-            if (stormButton) stormButton.style.removeProperty("display");
-          });
+            });
         } else {
           if (!window.isSecureContext) {
-            if (status) status.textContent = "⚠️ Phone shaking needs a secure HTTPS page. Open the published HTTPS link, then tap ENABLE SHAKE.";
+            if (status)
+              status.textContent =
+                "⚠️ Phone shaking needs a secure HTTPS page. Open the published HTTPS link, then tap ENABLE SHAKE.";
             if (enableButton) enableButton.style.display = "inline-flex";
             if (stormButton) stormButton.style.removeProperty("display");
             return;
@@ -4953,9 +5086,16 @@
         if (now - lastMotionEventAt < 35) return;
         lastMotionEventAt = now;
 
-        const hasLinear = event.acceleration &&
-          [event.acceleration.x, event.acceleration.y, event.acceleration.z].some((value) => Number.isFinite(value));
-        const acceleration = hasLinear ? event.acceleration : event.accelerationIncludingGravity;
+        const hasLinear =
+          event.acceleration &&
+          [
+            event.acceleration.x,
+            event.acceleration.y,
+            event.acceleration.z,
+          ].some((value) => Number.isFinite(value));
+        const acceleration = hasLinear
+          ? event.acceleration
+          : event.accelerationIncludingGravity;
         if (!acceleration) return;
 
         const x = Number(acceleration.x) || 0;
@@ -4977,7 +5117,9 @@
         const threshold = hasLinear ? 7.5 : 10;
         if (change > threshold) {
           shakeImpulseTimes.push(now);
-          shakeImpulseTimes = shakeImpulseTimes.filter((time) => now - time < 1900);
+          shakeImpulseTimes = shakeImpulseTimes.filter(
+            (time) => now - time < 1900,
+          );
         }
 
         if (shakeImpulseTimes.length >= 3 && now - lastShake > 900) {
@@ -5104,96 +5246,48 @@
 
           text: `
 
-I made this little surprise just for you because I wanted to give you something that feels special and comes straight from my heart.
-
-
-
-I hope every little part of this gift makes you smile. You deserve to feel appreciated, cared for, and loved not just during Christmas, but every day.
-
-
-
-Thank you for being someone who makes ordinary moments feel meaningful.
-
-
-
-I am so happy to have you in my life.`,
+Merry Christmas, Baby❤️! Celebrating our very first Christmas together
+ makes this holiday season feel more special than ever before. Being able to spend this 
+ time with you is honestly the greatest gift I could ever ask for, and it makes me realize
+  just how lucky I am to have you in my life.`,
         },
 
         {
-          title: "You Make Life Brighter ✨",
+          title: "My Confession✨",
 
           text: `
-I hope you know how much happiness you bring into my days.
-
-
-
-Your smile, your laughter, and the little things that make you who you are mean more to me than I can explain.
-
-
-
-Even the simplest conversations and quiet moments become memories I want to keep.
-
-
-
-I may not always find the perfect words, but I hope my actions remind you that you matter so much to me.
-
-
-
-You are one of my favorite parts of life. ❤️`,
+Looking back on this year, my favorite memory is still June 5, 2026. I am so glad
+ I finally gathered the courage to confess my feelings to you that day. Taking that
+  chance and telling you how I felt turned out to be the best decision I have ever made.`,
         },
 
         {
-          title: "A Little Christmas Wish 🎄",
+          title: "My One and Only ❤️",
 
           text: `
-My Christmas wish is simple, I hope we keep making beautiful memories together.
-
-
-
-I hope we continue learning, growing, understanding each other, and choosing kindness even on difficult days.
-
-
-
-I want to celebrate the little wins with you, laugh with you over silly things, and be someone you can talk to whenever you need.
-
-
-
-May this season bring you peace, warmth, and countless reasons to smile.
-
-
-
-And may we have many more Christmas memories to look forward to.`,
+Since that moment, you have brought so much joy and warmth into my days. 
+I am endlessly grateful for everything you have done for me, especially for 
+embracing all of me, even my rough childhood and my most vulnerable moments. 
+Having someone love me unconditionally through my past scars and heal my heart 
+with such patience and grace is something I will cherish forever. You have changed
+ my life for the better in ways I never expected.`,
         },
 
         {
           title: "With Love, Always ❤️",
 
-          text: `To my lovely 
-Thank you for being you.
-
-
-
-Thank you for the happiness, the laughter, and the memories we have shared. I appreciate you more than these few pages could ever say.
-
-
-
-I hope you never forget how special you are and how much good you deserve.
-
-
-
-Wherever life takes us, I hope we keep supporting each other and finding reasons to smile.
-
-
-
-Merry Christmas, Jershey. I hope this little surprise reminds you that you are appreciated and loved.
-
+          text: `
+          Thank you for being my safe place and my favorite person. 
+          My biggest wish for us is that we grow and become successful 
+          in life together, side by side. I want to be with you not just
+          as your boyfriend, but as your true partner in life for all the
+           years to come. I love you so much, and I cannot wait to make so 
+           many more memories and spend the rest of my days with you.
 
 
 With all my love,
-
-
-
-Lyan ❤️`,
+Lyan❤️
+Your boyfriend❤️`,
         },
       ];
 
@@ -5303,7 +5397,9 @@ Lyan ❤️`,
       }
 
       function toggleChristmasAmbience() {
-        const isTurningOff = !document.body.classList.contains("christmas-ambience-off");
+        const isTurningOff = !document.body.classList.contains(
+          "christmas-ambience-off",
+        );
         document.body.classList.toggle("christmas-ambience-off", isTurningOff);
         const button = document.getElementById("christmasAmbienceToggle");
         if (button) {
